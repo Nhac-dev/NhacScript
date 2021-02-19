@@ -5,9 +5,9 @@
 
     Author: Jefferson Silva de Souza/Nhac
     GitHub Nick: Nhac-dev || https://github.com/Nhac-dev
-    Language Logs: PT
+    Language Logs: EN
     Version: 1.0.0 
-
+    Repository link: https://github.com/Nhac-dev/NhacScript
 */
 
 // Variables Initials
@@ -25,7 +25,7 @@
             else{
                 var type = typeof(functionYour)
                 errorInfo = {
-                    errorMessage: `Esta função não é exatamente uma função, e sim uma ${type}, por favor ponha uma função válida!`,
+                    errorMessage: `This function is not exactly a function, but a ${type}, please put a valid rask!`,
                     errorType: 'Invalid param'
                 }
                 console.error(errorInfo.errorMessage, errorInfo)
@@ -33,7 +33,7 @@
         }
         const $elm = $t((value)=>{
             if(typeof(value) == 'function'){
-                log('Valor invalido, caso queira criar uma função use o método "$t()"', 1)
+                log('Invalid value, if you want to create a task use the "$t()" method', 1)
                 return undefined
             }
             else{
@@ -43,7 +43,7 @@
         const $obj = $t((object)=>{
             if(typeof(object) == 'object'){
                 if(Array.isArray(object) == true){
-                    log(`O objecto solicitado na verdade é um Array/Lista, use o método "$list()".`, 2)
+                    log (`The requested object is actually an Array/list, use the "$list()" method.`, 2)
                     return object
                 }
                 else{
@@ -51,7 +51,7 @@
                 }
             }
             else{
-                log(`O objecto solicitado na verdade é um ${typeof(object)}, use o "$elm()" para qualquer valor[exação das tarefas] ou "$list()" para array/lista, e "$t()" para tarefas.`, 1)
+                log (`The requested object is actually a ${typeof(object)}, use "$elm()" for any value [task exception] or "$list()" for array/list, and "$t()" for tasks.`, 1)
                 return undefined
             }
         })
@@ -61,12 +61,12 @@
                     return arrayValue
                 }   
                 else{
-                    log(`O objecto na verdade é um Objecto, use o método "$obj()".`, 2)
+                    log(`The object is actually an Object, use the "$obj()" method.`, 2)
                     return arrayValue
                 }
             }
             else{
-                log(`O objecto na verdade é um ${typeof(object)}, use o "$elm()" para qualquer valor[exação das tarefas] ou "$obj()" para objetos, e "$t()" para tarefas.`, 1)
+                log(`The object is actually a ${typeof(object)}, use "$elm()" for any value [task exception] or "$obj()" for objects, and "$t()" for tasks. `, 1)
                 return undefined
             }
         })
@@ -85,7 +85,7 @@
                 console.table(message)
             }
             else{
-                console.error(`Desculpe mas o tipo ${type} não é suportado!`);
+                console.error(`Sorry, ${type} is not supported!`);
             }
         })
     // Get the var infos
@@ -135,39 +135,39 @@
                     return Number(numTarget)
                 }
                 else{
-                    log('Este elemento não é um número válido!', 1)
+                    log('This element is not a valid number!', 1)
                     return undefined
                 }
             }
             else{
-                log('Este elemento já é um número', 1)
+                log('This element is already a number!', 1)
                 return undefined
             }
         })
         const toFlt = $t((numTarget)=>{
             if(typeof(numTarget) != 'number' && typeof(numTarget) != 'string'){
-                log('O argumento solicitado não é nem um número ou string!', 1)
+                log('The requested argument is neither a number nor a string!', 1)
             }
             else{
                 if(numTarget <= 0 || numTarget >= 0){
                     return parseFloat(numTarget)
                 }
                 else{
-                    log('Este elemento não é um número válido!', 1)
+                    log('This element is not a valid number!', 1)
                     return undefined
                 }
             }
         })
         const toInt = $t((numTarget)=>{
             if(typeof(numTarget) != 'number' && typeof(numTarget) != 'string'){
-                log('O argumento solicitado não é nem um número ou string!', 1)
+                log('The requested argument is neither a number nor a string!', 1)
             }
             else{
                 if(numTarget <= 0 || numTarget >= 0){
                     return parseInt(numTarget)
                 }
                 else{
-                    log('Este elemento não é um número válido!', 1)
+                    log('This element is not a valid number!!', 1)
                     return undefined
                 }
             }
@@ -179,18 +179,18 @@
                         return target.toString()
                     }
                     else{
-                        log('Se quiser converter um objeto para JSON use a tarefa "toJSON()"', 2)
+                        log('Se você deseja converter um objeto para JSON, use a tarefa "toJSON ()"', 2)
                         return JSON.stringify(target)
                     }
                     
                 }
                 else{
-                    log('Este elemento já é uma string.', 1)
+                    log('This element is already a string.', 1)
                     return undefined
                 }
             }
             else{
-                log(`Operação impossível! Há argumentos faltando para completar esta tarefa!`, 2)
+                log(`Operation impossible! There are arguments missing to complete this task!`, 2)
                 return NaN
             }
             
@@ -202,7 +202,7 @@
                 element.addEventListener('click', event)
             }
             else{
-                log(`O elemento ${element}, não existe!`, 2)
+                log(`The ${element} element does not exist!`, 2)
             }
 
         })
@@ -211,7 +211,7 @@
                 element.addEventListener('dblclick', event)
             }
             else{
-                log(`O elemento ${element}, não existe!`, 2)
+                log(`The ${element} element does not exist!`, 2)
             }
         })
         const envLoad = $t((element, event)=>{
@@ -219,7 +219,7 @@
                 element.addEventListener('load', event)
             }
             else{
-                log(`O elemento ${element}, não existe!`, 2)
+                log(`The ${element} element does not exist!`, 2)
             }
         })
         const addEnv = $t((element, eventName, event)=>{
@@ -227,7 +227,8 @@
                 element.addEventListener(eventName, event)
             }
             else{
-                log(`O elemento ${element}, não existe!`, 2)
+                log(`The ${element} element does not exist!`, 2)
+
             }
         })
     // Css
@@ -252,14 +253,12 @@
                 if(key == shortKey[c]){
                     if(element.style || element.style[JSyntax[c]]){
                         element.style[JSyntax[c]] = value  
-                        log('A versão abreviada está instável, tome cuidado.', 2)
-                        break
+                        log ('The shortened version is unstable, be careful.', 2)
                     }
                 }
                 else{
                     if(element.style){
                         element.style[key] = value                    
-                        break
                     }
                    
                 }
@@ -276,7 +275,7 @@
                 return exportElement
             }
             else{
-                log(`O objeto solicitado não existe, ou, a sintaxe está incorreta, verifique! "${syntax}"`, 1)
+                log(`The requested object does not exist, or the syntax is incorrect, check! "${syntax}"`, 1)
             }
         })
         const GetElement = $t((type, value)=>{
@@ -296,7 +295,7 @@
                         exportElement.getBy = 'id'
                         exportElement.getIn = 'NhacScript'
                         exportElement.infos = getInfo(exportElement)
-                        log(`Ou você usou uma sintaxe errada ou obteve o elemento errado, verifique ${value}, qualquer coisa ente usar a função: "elmGSimple()"`, 2)   
+                        log(`Either you used the wrong syntax or got the wrong element, check ${value}, anything between using the task: "elmGSimple()`, 2)   
                         return exportElement
                     }
                 }
@@ -317,7 +316,7 @@
                         exportElement.getBy = 'id'
                         exportElement.getIn = 'NhacScript'
                         exportElement.infos = getInfo(exportElement)
-                        log(`Ou você usou uma sintaxe errada ou obteve o elemento errado, verifique ${value}, qualquer coisa ente usar a função: "elmGSimple()"`, 2)   
+                        log(`Either you used the wrong syntax or got the wrong element, check ${value}, anything between using the task: "elmGSimple()`, 2)   
                         return exportElement
                     }
                 }
@@ -338,7 +337,7 @@
                         exportElement.getBy = 'other'
                         exportElement.getIn = 'NhacScript'
                         exportElement.infos = getInfo(exportElement)
-                        log(`Ou você usou uma sintaxe errada ou obteve o elemento errado, verifique ${value}, qualquer coisa ente usar a função: "elmGSimple()"`, 2)   
+                        log(`Either you used the wrong syntax or got the wrong element, check ${value}, anything between using the task: "elmGSimple()`, 2)   
                         return exportElement
                     }
                 }
@@ -350,11 +349,11 @@
                         exportElement.getBy = 'undefined'
                         exportElement.getIn = 'NhacScript'
                         exportElement.infos = getInfo(exportElement)
-                        log(`Você não declarou ou declarou um tipo errado de elemento e/ou usou uma sintaxe errada e possivelmente obteve o elemento errado, verifique ${value}, qualquer coisa ente usar a função: "elmGSimple()"`, 2)   
+                        log(`Either you used the wrong syntax or got the wrong element, check ${value}, anything between using the task: "elmGSimple()`, 2)   
                         return exportElement
                     }
                 else{
-                    log(`O Tipo ${type} é invalido!, tente os seguintes: id, class, other`, 1)
+                    log(`Type ${type} is invalid! try the following: id, class, other.`, 1)
                     return undefined
                 }
             }
