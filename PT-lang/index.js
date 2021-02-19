@@ -6,7 +6,7 @@
     Author: Jefferson Silva de Souza/Nhac
     GitHub Nick: Nhac-dev || https://github.com/Nhac-dev
     Language Logs: PT
-    Version: 1.0.0 
+    Version: 1.0.1
     Repository link: https://github.com/Nhac-dev/NhacScript
 
 */
