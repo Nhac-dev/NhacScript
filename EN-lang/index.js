@@ -6,12 +6,12 @@
     Author: Jefferson Silva de Souza/Nhac
     GitHub Nick: Nhac-dev || https://github.com/Nhac-dev
     Language Logs: EN
-    Version: 1.0.1
+    Version: 1.0.2 - EVENT DOM UPDATE
     Repository link: https://github.com/Nhac-dev/NhacScript
+    Creator Instagram: https://www.instagram.com/nhac_dev/
 */
 
 // Variables Initials
-    var exportElement
     var arrayInfo
     var errorInfo
 
@@ -197,7 +197,7 @@
         })
 // Simplified DOM
     // Events
-        const envClick = $t((element, event)=>{
+        const clickEnv = $t((element, event)=>{
             if(element){
                 element.addEventListener('click', event)
             }
@@ -206,7 +206,7 @@
             }
 
         })
-        const envDBLClick = $t((element, event)=>{
+        const DBLClickEnv = $t((element, event)=>{
             if(element){
                 element.addEventListener('dblclick', event)
             }
@@ -214,7 +214,7 @@
                 log(`The ${element} element does not exist!`, 2)
             }
         })
-        const envLoad = $t((element, event)=>{
+        const loadEnv = $t((element, event)=>{
             if(element){
                 element.addEventListener('load', event)
             }
@@ -358,3 +358,576 @@
                 }
             }
         })
+        const $simple = $t((syntax)=>{
+            this.element = document.querySelector(syntax)
+            if(this.element){
+                this.element.getBy = 'id'
+                this.element.isHtml = true
+                this.element.getIn = 'NhacScript'
+                // DOM EVENTS
+                    this.element.envClick = (event)=>{
+                        this.element.addEventListener('click', event)
+                    }
+                    this.element.envDBLClick = (event)=>{
+                        this.element.addEventListener('dblclick', event)
+                    }
+                    this.element.envLoad = (event)=>{
+                        this.element.addEventListener('load', event)
+                    }
+                    this.element.addEnv = (eventName, event)=>{
+                        this.element.addEventListener(eventName, event)
+                    } 
+                // Styling
+                    this.element.css = (key, value)=>{
+                        var shortKey = [
+                            'bg',
+                            'bg-c',
+                            'ta',
+                            'sw',
+                            'sh',
+                            'aContent'
+                        ]
+                        var JSyntax = [
+                            'background',
+                            'backgroundColor',
+                            'textAlign',
+                            'width',
+                            'height',
+                            'alignContent'
+                        ]
+                        if(Array.isArray(key) == true && Array.isArray(value) == true){
+                            for(let counter = 0; counter < key.length; counter++){
+                                this.element.style[key[counter]] = value[counter]                    
+                            }
+                        }
+                        else{
+                            for(let c = 0; c < shortKey.length; c++){
+                                if(key == shortKey[c]){
+                                    this.element.style[JSyntax[c]] = value
+                                    log('The shortened version is unstable, be careful.', 2)
+                                    break
+                                }
+                                else{
+                                    if(element.style){
+                                        this.element.style[key] = value                    
+                                        break
+                                    }
+                                   
+                                }
+                            }
+                            
+                        }
+                    }
+                // Inner
+                    this.element.HTML = (content)=>{
+                        this.element.innerHTML = content
+                    }
+                    this.element.TXT = (content)=>{
+                        this.element.innerText = content
+                    }
+                    this.element.append = (content, method='html')=>{
+                        if(method == 'html'){
+                            this.element.innerHTML += content
+                        }
+                        else if(method == 'txt' || method == 'text'){
+                            this.element.innerText += content
+                        }
+                    }
+                    this.element.addText = (content)=>{
+                        this.element.innerText += content
+                    }
+                    this.element.addHTML = (content)=>{
+                        this.element.innerHTML += content
+                    }
+                return this.element
+            }
+            else{
+                log(`The requested object does not exist, or the syntax is incorrect, check! "${syntax}"`, 1)
+            }
+        })
+        const $HTML_Specified = $t((type, value)=>{
+            if(type === 'id'){
+                this.element = new Object
+                this.element = document.getElementById(value)
+                if(this.element){
+                    this.element.isHtml = true
+                    this.element.getBy = 'id'
+                    this.element.getIn = 'NhacScript'
+                    // DOM EVENTS
+                        this.element.envClick = (event)=>{
+                            this.element.addEventListener('click', event)
+                        }
+                        this.element.envDBLClick = (event)=>{
+                            this.element.addEventListener('dblclick', event)
+                        }
+                        this.element.envLoad = (event)=>{
+                            this.element.addEventListener('load', event)
+                        }
+                        this.element.addEnv = (eventName, event)=>{
+                            this.element.addEventListener(eventName, event)
+                        } 
+                    // Styling
+                        this.element.css = (key, value)=>{
+                            var shortKey = [
+                                'bg',
+                                'bg-c',
+                                'ta',
+                                'sw',
+                                'sh',
+                                'aContent'
+                            ]
+                            var JSyntax = [
+                                'background',
+                                'backgroundColor',
+                                'textAlign',
+                                'width',
+                                'height',
+                                'alignContent'
+                            ]
+                            if(Array.isArray(key) == true && Array.isArray(value) == true){
+                                for(let counter = 0; counter < key.length; counter++){
+                                    this.element.style[key[counter]] = value[counter]                    
+                                }
+                            }
+                            else{
+                                for(let c = 0; c < shortKey.length; c++){
+                                    if(key == shortKey[c]){
+                                        this.element.style[JSyntax[c]] = value
+                                        log('The shortened version is unstable, be careful.', 2)
+                                        break
+                                    }
+                                    else{
+                                        if(element.style){
+                                            this.element.style[key] = value                    
+                                            break
+                                        }
+                                    
+                                    }
+                                }
+                                
+                            }
+                        }
+                    // Inner
+                        this.element.HTML = (content)=>{
+                            this.element.innerHTML = content
+                        }
+                        this.element.TXT = (content)=>{
+                            this.element.innerText = content
+                        }
+                        this.element.append = (content, method='html')=>{
+                            if(method == 'html'){
+                                this.element.innerHTML += content
+                            }
+                            else if(method == 'txt' || method == 'text'){
+                                this.element.innerText += content
+                            }
+                        }
+                        this.element.addText = (content)=>{
+                            this.element.innerText += content
+                        }
+                        this.element.addHTML = (content)=>{
+                            this.element.innerHTML += content
+                        } 
+                    return this.element
+                }
+                else{
+                    this.element = document.querySelector(value)
+                    if(this.element){
+                        this.element.getBy = 'id'
+                        this.element.getIn = 'NhacScript'
+                        this.element.infos = getVarInfo(this.element)
+                        // DOM EVENTS
+                            this.element.envClick = (event)=>{
+                                this.element.addEventListener('click', event)
+                            }
+                            this.element.envDBLClick = (event)=>{
+                                this.element.addEventListener('dblclick', event)
+                            }
+                            this.element.envLoad = (event)=>{
+                                this.element.addEventListener('load', event)
+                            }
+                            this.element.addEnv = (eventName, event)=>{
+                                this.element.addEventListener(eventName, event)
+                            } 
+                        // Styling
+                            this.element.css = (key, value)=>{
+                                var shortKey = [
+                                    'bg',
+                                    'bg-c',
+                                    'ta',
+                                    'sw',
+                                    'sh',
+                                    'aContent'
+                                ]
+                                var JSyntax = [
+                                    'background',
+                                    'backgroundColor',
+                                    'textAlign',
+                                    'width',
+                                    'height',
+                                    'alignContent'
+                                ]
+                                if(Array.isArray(key) == true && Array.isArray(value) == true){
+                                    for(let counter = 0; counter < key.length; counter++){
+                                        this.element.style[key[counter]] = value[counter]                    
+                                    }
+                                }
+                                else{
+                                    for(let c = 0; c < shortKey.length; c++){
+                                        if(key == shortKey[c]){
+                                            this.element.style[JSyntax[c]] = value
+                                            log('The shortened version is unstable, be careful.', 2)
+                                            break
+                                        }
+                                        else{
+                                            if(element.style){
+                                                this.element.style[key] = value                    
+                                                break
+                                            }
+                                        
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                        // inner
+                            this.element.HTML = (content)=>{
+                                this.element.innerHTML = content
+                            }
+                            this.element.TXT = (content)=>{
+                                this.element.innerText = content
+                            }
+                            this.element.append = (content, method='html')=>{
+                                if(method == 'html'){
+                                    this.element.innerHTML += content
+                                }
+                                else if(method == 'txt' || method == 'text'){
+                                    this.element.innerText += content
+                                }
+                            }
+                            this.element.addText = (content)=>{
+                                this.element.innerText += content
+                            }
+                            this.element.addHTML = (content)=>{
+                                this.element.innerHTML += content
+                            }
+                        log(`The requested object does not exist, or the syntax is incorrect, check! "${syntax}"`, 1)
+                        return this.element
+                    }
+                }
+            }
+            else if(type === 'class'){
+                this.element = new Object
+                this.element = document.getElementsByClassName(value)
+                if(this.element){
+                    this.element.isHtml = true
+                    this.element.getBy = 'class'
+                    this.element.getIn = 'NhacScript'
+                    // DOM EVENTS
+                        this.element.envClick = (event)=>{
+                            this.element.addEventListener('click', event)
+                        }
+                        this.element.envDBLClick = (event)=>{
+                            this.element.addEventListener('dblclick', event)
+                        }
+                        this.element.envLoad = (event)=>{
+                           this.element.addEventListener('load', event)
+                        }
+                        this.element.addEnv = (eventName, event)=>{
+                            this.element.addEventListener(eventName, event)
+                        } 
+                    // Styling
+                        this.element.css = (key, value)=>{
+                            var shortKey = [
+                                'bg',
+                                'bg-c',
+                                'ta',
+                                'sw',
+                                'sh',
+                                'aContent'
+                            ]
+                            var JSyntax = [
+                                'background',
+                                'backgroundColor',
+                                'textAlign',
+                                'width',
+                                'height',
+                                'alignContent'
+                            ]
+                            if(Array.isArray(key) == true && Array.isArray(value) == true){
+                                for(let index = 0; index < this.element.length; index++){
+                                    for(let counter = 0; counter < key.length; counter++){
+                                        this.element.style[key[counter]] = value[counter] 
+                                    }               
+                                }
+                            }
+                            else{
+                                for(let index = 0; index < this.element.length; index++){
+                                    for(let c = 0; c < shortKey.length; c++){
+                                        if(key == shortKey[c]){
+                                            this.element[index].style[JSyntax[c]] = value
+                                            log('The shortened version is unstable, be careful.', 2)
+                                            break
+                                        }
+                                        else{
+                                            if(element.style){
+                                                this.element[index].style[key] = value                    
+                                                break
+                                            }
+                                        
+                                        }
+                                    }
+                                }
+                                
+                                
+                            }
+                        }
+                    return this.element
+                }
+                else{
+                    this.element = document.querySelector(value)
+                    if(this.element){
+                        this.element.getBy = 'class'
+                        this.element.getIn = 'NhacScript'
+                        this.element.infos = getVarInfo(this.element)
+                        // DOM EVENTS
+                            this.element.envClick = (event)=>{
+                                this.element.addEventListener('click', event)
+                            }
+                            this.element.envDBLClick = (event)=>{
+                                this.element.addEventListener('dblclick', event)
+                            }
+                            this.element.envLoad = (event)=>{
+                            this.element.addEventListener('load', event)
+                            }
+                            this.element.addEnv = (eventName, event)=>{
+                                this.element.addEventListener(eventName, event)
+                            } 
+                        // Styling
+                            this.element.css = (key, value)=>{
+                                var shortKey = [
+                                    'bg',
+                                    'bg-c',
+                                    'ta',
+                                    'sw',
+                                    'sh',
+                                    'aContent'
+                                ]
+                                var JSyntax = [
+                                    'background',
+                                    'backgroundColor',
+                                    'textAlign',
+                                    'width',
+                                    'height',
+                                    'alignContent'
+                                ]
+                                if(Array.isArray(key) == true && Array.isArray(value) == true){
+                                    for(let index = 0; index < this.element.length; index++){
+                                        for(let counter = 0; counter < key.length; counter++){
+                                            this.element.style[key[counter]] = value[counter] 
+                                        }               
+                                    }
+                                }
+                                else{
+                                    for(let index = 0; index < this.element.length; index++){
+                                        for(let c = 0; c < shortKey.length; c++){
+                                            if(key == shortKey[c]){
+                                                this.element[index].style[JSyntax[c]] = value
+                                                log('The shortened version is unstable, be careful.', 2)
+                                                break
+                                            }
+                                            else{
+                                                if(element.style){
+                                                    this.element[index].style[key] = value                    
+                                                    break
+                                                }
+                                            
+                                            }
+                                        }
+                                    }
+                                    
+                                    
+                                }
+                            }
+                        log(`The requested object does not exist, or the syntax is incorrect, check! "${syntax}"`, 1)
+                        return this.element
+                    }
+                }
+            }
+            else if(type === 'other'){
+                this.element = new Object
+                this.element = document.querySelector(value)
+                if(this.element){
+                    this.element.isHtml = true
+                    this.element.getBy = 'other'
+                    this.element.getIn = 'NhacScript'
+                    // DOM EVENTS
+                        this.element.envClick = (event)=>{
+                            this.element.addEventListener('click', event)
+                        }
+                        this.element.envDBLClick = (event)=>{
+                            this.element.addEventListener('dblclick', event)
+                        }
+                        this.element.envLoad = (event)=>{
+                        this.element.addEventListener('load', event)
+                        }
+                        this.element.addEnv = (eventName, event)=>{
+                            this.element.addEventListener(eventName, event)
+                        } 
+                    // Styling
+                        this.element.css = (key, value)=>{
+                            var shortKey = [
+                                'bg',
+                                'bg-c',
+                                'ta',
+                                'sw',
+                                'sh',
+                                'aContent'
+                            ]
+                            var JSyntax = [
+                                'background',
+                                'backgroundColor',
+                                'textAlign',
+                                'width',
+                                'height',
+                                'alignContent'
+                            ]
+                            if(Array.isArray(key) == true && Array.isArray(value) == true){
+                                for(let counter = 0; counter < key.length; counter++){
+                                    this.element.style[key[counter]] = value[counter]                    
+                                }
+                            }
+                            else{
+                                for(let c = 0; c < shortKey.length; c++){
+                                    if(key == shortKey[c]){
+                                        this.element.style[JSyntax[c]] = value
+                                        log('The shortened version is unstable, be careful.', 2)
+                                        break
+                                    }
+                                    else{
+                                        if(element.style){
+                                            this.element.style[key] = value                    
+                                            break
+                                        }
+                                    
+                                    }
+                                }
+                                
+                            }
+                        }
+                    // Inner
+                        this.element.HTML = (content)=>{
+                            this.element.innerHTML = content
+                        }
+                        this.element.TXT = (content)=>{
+                            this.element.innerText = content
+                        }
+                        this.element.append = (content, method='html')=>{
+                            if(method == 'html'){
+                                this.element.innerHTML += content
+                            }
+                            else if(method == 'txt' || method == 'text'){
+                                this.element.innerText += content
+                            }
+                        }
+                        this.element.addText = (content)=>{
+                            this.element.innerText += content
+                        }
+                        this.element.addHTML = (content)=>{
+                            this.element.innerHTML += content
+                        } 
+                    return this.element
+                }
+                else{
+                    this.element = document.querySelector(value)
+                    if(this.element){
+                        this.element.getBy = 'other'
+                        this.element.getIn = 'NhacScript'
+                        this.element.infos = getVarInfo(this.element)
+                        // DOM EVENTS
+                            this.element.envClick = (event)=>{
+                                this.element.addEventListener('click', event)
+                            }
+                            this.element.envDBLClick = (event)=>{
+                                this.element.addEventListener('dblclick', event)
+                            }
+                            this.element.envLoad = (event)=>{
+                            this.element.addEventListener('load', event)
+                            }
+                            this.element.addEnv = (eventName, event)=>{
+                                this.element.addEventListener(eventName, event)
+                            } 
+                        // Styling
+                            this.element.css = (key, value)=>{
+                                var shortKey = [
+                                    'bg',
+                                    'bg-c',
+                                    'ta',
+                                    'sw',
+                                    'sh',
+                                    'aContent'
+                                ]
+                                var JSyntax = [
+                                    'background',
+                                    'backgroundColor',
+                                    'textAlign',
+                                    'width',
+                                    'height',
+                                    'alignContent'
+                                ]
+                                if(Array.isArray(key) == true && Array.isArray(value) == true){
+                                    for(let counter = 0; counter < key.length; counter++){
+                                        this.element.style[key[counter]] = value[counter]                    
+                                    }
+                                }
+                                else{
+                                    for(let c = 0; c < shortKey.length; c++){
+                                        if(key == shortKey[c]){
+                                            this.element.style[JSyntax[c]] = value
+                                            log('The shortened version is unstable, be careful.', 2)
+                                            break
+                                        }
+                                        else{
+                                            if(element.style){
+                                                this.element.style[key] = value                    
+                                                break
+                                            }
+                                        
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                        // Inner
+                            this.element.HTML = (content)=>{
+                                this.element.innerHTML = content
+                            }
+                            this.element.TXT = (content)=>{
+                                this.element.innerText = content
+                            }
+                            this.element.append = (content, method='html')=>{
+                                if(method == 'html'){
+                                    this.element.innerHTML += content
+                                }
+                                else if(method == 'txt' || method == 'text'){
+                                    this.element.innerText += content
+                                }
+                            }
+                            this.element.addText = (content)=>{
+                                this.element.innerText += content
+                            }
+                            this.element.addHTML = (content)=>{
+                                this.element.innerHTML += content
+                            } 
+                        log(`The requested object does not exist, or the syntax is incorrect, check! "${syntax}"`, 1)
+                        return this.element
+                    }
+                }
+            }
+            else{
+                log(`The Type ${type} is invalid! Try the following: id, class, other`, 1)
+                return undefined
+                
+            }
+        })
+        

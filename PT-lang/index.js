@@ -6,13 +6,12 @@
     Author: Jefferson Silva de Souza/Nhac
     GitHub Nick: Nhac-dev || https://github.com/Nhac-dev
     Language Logs: PT
-    Version: 1.0.1
+    Version: 1.0.2 - EVENT DOM UPDATE
     Repository link: https://github.com/Nhac-dev/NhacScript
-
+    Creator Instagram: https://www.instagram.com/nhac_dev/
 */
 
 // Variables Initials
-    var exportElement
     var arrayInfo
     var errorInfo
 
@@ -267,96 +266,576 @@
             }
         })
     // Get the elements HTML
-        const elmGSimple = $t((syntax)=>{
-            exportElement = new Object
-            exportElement = document.querySelector(syntax)
-            if(exportElement){
-                exportElement.getBy = 'id'
-                exportElement.isHtml = true
-                exportElement.getIn = 'NhacScript'
-                return exportElement
+        const $simple = $t((syntax)=>{
+            this.element = document.querySelector(syntax)
+            if(this.element){
+                this.element.getBy = 'id'
+                this.element.isHtml = true
+                this.element.getIn = 'NhacScript'
+                // DOM EVENTS
+                    this.element.envClick = (event)=>{
+                        this.element.addEventListener('click', event)
+                    }
+                    this.element.envDBLClick = (event)=>{
+                        this.element.addEventListener('dblclick', event)
+                    }
+                    this.element.envLoad = (event)=>{
+                        this.element.addEventListener('load', event)
+                    }
+                    this.element.addEnv = (eventName, event)=>{
+                        this.element.addEventListener(eventName, event)
+                    } 
+                // Styling
+                    this.element.css = (key, value)=>{
+                        var shortKey = [
+                            'bg',
+                            'bg-c',
+                            'ta',
+                            'sw',
+                            'sh',
+                            'aContent'
+                        ]
+                        var JSyntax = [
+                            'background',
+                            'backgroundColor',
+                            'textAlign',
+                            'width',
+                            'height',
+                            'alignContent'
+                        ]
+                        if(Array.isArray(key) == true && Array.isArray(value) == true){
+                            for(let counter = 0; counter < key.length; counter++){
+                                this.element.style[key[counter]] = value[counter]                    
+                            }
+                        }
+                        else{
+                            for(let c = 0; c < shortKey.length; c++){
+                                if(key == shortKey[c]){
+                                    this.element.style[JSyntax[c]] = value
+                                    log('A versão abreviada está instável, tome cuidado.', 2)
+                                    break
+                                }
+                                else{
+                                    if(element.style){
+                                        this.element.style[key] = value                    
+                                        break
+                                    }
+                                   
+                                }
+                            }
+                            
+                        }
+                    }
+                // Inner
+                    this.element.HTML = (content)=>{
+                        this.element.innerHTML = content
+                    }
+                    this.element.TXT = (content)=>{
+                        this.element.innerText = content
+                    }
+                    this.element.append = (content, method='html')=>{
+                        if(method == 'html'){
+                            this.element.innerHTML += content
+                        }
+                        else if(method == 'txt' || method == 'text'){
+                            this.element.innerText += content
+                        }
+                    }
+                    this.element.addText = (content)=>{
+                        this.element.innerText += content
+                    }
+                    this.element.addHTML = (content)=>{
+                        this.element.innerHTML += content
+                    }
+                return this.element
             }
             else{
                 log(`O objeto solicitado não existe, ou, a sintaxe está incorreta, verifique! "${syntax}"`, 1)
             }
         })
-        const GetElement = $t((type, value)=>{
+        const $HTML_Specified = $t((type, value)=>{
             if(type === 'id'){
-                exportElement = new Object
-                exportElement = document.getElementById(value)
-                if(exportElement){
-                    exportElement.isHtml = true
-                    exportElement.getBy = 'id'
-                    exportElement.getIn = 'NhacScript'
-                    
-                    return exportElement
+                this.element = new Object
+                this.element = document.getElementById(value)
+                if(this.element){
+                    this.element.isHtml = true
+                    this.element.getBy = 'id'
+                    this.element.getIn = 'NhacScript'
+                    // DOM EVENTS
+                        this.element.envClick = (event)=>{
+                            this.element.addEventListener('click', event)
+                        }
+                        this.element.envDBLClick = (event)=>{
+                            this.element.addEventListener('dblclick', event)
+                        }
+                        this.element.envLoad = (event)=>{
+                            this.element.addEventListener('load', event)
+                        }
+                        this.element.addEnv = (eventName, event)=>{
+                            this.element.addEventListener(eventName, event)
+                        } 
+                    // Styling
+                        this.element.css = (key, value)=>{
+                            var shortKey = [
+                                'bg',
+                                'bg-c',
+                                'ta',
+                                'sw',
+                                'sh',
+                                'aContent'
+                            ]
+                            var JSyntax = [
+                                'background',
+                                'backgroundColor',
+                                'textAlign',
+                                'width',
+                                'height',
+                                'alignContent'
+                            ]
+                            if(Array.isArray(key) == true && Array.isArray(value) == true){
+                                for(let counter = 0; counter < key.length; counter++){
+                                    this.element.style[key[counter]] = value[counter]                    
+                                }
+                            }
+                            else{
+                                for(let c = 0; c < shortKey.length; c++){
+                                    if(key == shortKey[c]){
+                                        this.element.style[JSyntax[c]] = value
+                                        log('A versão abreviada está instável, tome cuidado.', 2)
+                                        break
+                                    }
+                                    else{
+                                        if(element.style){
+                                            this.element.style[key] = value                    
+                                            break
+                                        }
+                                    
+                                    }
+                                }
+                                
+                            }
+                        }
+                    // Inner
+                        this.element.HTML = (content)=>{
+                            this.element.innerHTML = content
+                        }
+                        this.element.TXT = (content)=>{
+                            this.element.innerText = content
+                        }
+                        this.element.append = (content, method='html')=>{
+                            if(method == 'html'){
+                                this.element.innerHTML += content
+                            }
+                            else if(method == 'txt' || method == 'text'){
+                                this.element.innerText += content
+                            }
+                        }
+                        this.element.addText = (content)=>{
+                            this.element.innerText += content
+                        }
+                        this.element.addHTML = (content)=>{
+                            this.element.innerHTML += content
+                        } 
+                    return this.element
                 }
                 else{
-                    exportElement = document.querySelector(value)
-                    if(exportElement){
-                        exportElement.getBy = 'id'
-                        exportElement.getIn = 'NhacScript'
-                        exportElement.infos = getInfo(exportElement)
+                    this.element = document.querySelector(value)
+                    if(this.element){
+                        this.element.getBy = 'id'
+                        this.element.getIn = 'NhacScript'
+                        this.element.infos = getVarInfo(this.element)
+                        // DOM EVENTS
+                            this.element.envClick = (event)=>{
+                                this.element.addEventListener('click', event)
+                            }
+                            this.element.envDBLClick = (event)=>{
+                                this.element.addEventListener('dblclick', event)
+                            }
+                            this.element.envLoad = (event)=>{
+                                this.element.addEventListener('load', event)
+                            }
+                            this.element.addEnv = (eventName, event)=>{
+                                this.element.addEventListener(eventName, event)
+                            } 
+                        // Styling
+                            this.element.css = (key, value)=>{
+                                var shortKey = [
+                                    'bg',
+                                    'bg-c',
+                                    'ta',
+                                    'sw',
+                                    'sh',
+                                    'aContent'
+                                ]
+                                var JSyntax = [
+                                    'background',
+                                    'backgroundColor',
+                                    'textAlign',
+                                    'width',
+                                    'height',
+                                    'alignContent'
+                                ]
+                                if(Array.isArray(key) == true && Array.isArray(value) == true){
+                                    for(let counter = 0; counter < key.length; counter++){
+                                        this.element.style[key[counter]] = value[counter]                    
+                                    }
+                                }
+                                else{
+                                    for(let c = 0; c < shortKey.length; c++){
+                                        if(key == shortKey[c]){
+                                            this.element.style[JSyntax[c]] = value
+                                            log('A versão abreviada está instável, tome cuidado.', 2)
+                                            break
+                                        }
+                                        else{
+                                            if(element.style){
+                                                this.element.style[key] = value                    
+                                                break
+                                            }
+                                        
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                        // inner
+                            this.element.HTML = (content)=>{
+                                this.element.innerHTML = content
+                            }
+                            this.element.TXT = (content)=>{
+                                this.element.innerText = content
+                            }
+                            this.element.append = (content, method='html')=>{
+                                if(method == 'html'){
+                                    this.element.innerHTML += content
+                                }
+                                else if(method == 'txt' || method == 'text'){
+                                    this.element.innerText += content
+                                }
+                            }
+                            this.element.addText = (content)=>{
+                                this.element.innerText += content
+                            }
+                            this.element.addHTML = (content)=>{
+                                this.element.innerHTML += content
+                            }
                         log(`Ou você usou uma sintaxe errada ou obteve o elemento errado, verifique ${value}, qualquer coisa ente usar a função: "elmGSimple()"`, 2)   
-                        return exportElement
+                        return this.element
                     }
                 }
             }
             else if(type === 'class'){
-                exportElement = new Object
-                exportElement = document.getElementsByClassName(value)
-                if(exportElement){
-                    exportElement.isHtml = true
-                    exportElement.getBy = 'class'
-                    exportElement.getIn = 'NhacScript'
-                    
-                    return exportElement
+                this.element = new Object
+                this.element = document.getElementsByClassName(value)
+                if(this.element){
+                    this.element.isHtml = true
+                    this.element.getBy = 'class'
+                    this.element.getIn = 'NhacScript'
+                    // DOM EVENTS
+                        this.element.envClick = (event)=>{
+                            this.element.addEventListener('click', event)
+                        }
+                        this.element.envDBLClick = (event)=>{
+                            this.element.addEventListener('dblclick', event)
+                        }
+                        this.element.envLoad = (event)=>{
+                           this.element.addEventListener('load', event)
+                        }
+                        this.element.addEnv = (eventName, event)=>{
+                            this.element.addEventListener(eventName, event)
+                        } 
+                    // Styling
+                        this.element.css = (key, value)=>{
+                            var shortKey = [
+                                'bg',
+                                'bg-c',
+                                'ta',
+                                'sw',
+                                'sh',
+                                'aContent'
+                            ]
+                            var JSyntax = [
+                                'background',
+                                'backgroundColor',
+                                'textAlign',
+                                'width',
+                                'height',
+                                'alignContent'
+                            ]
+                            if(Array.isArray(key) == true && Array.isArray(value) == true){
+                                for(let index = 0; index < this.element.length; index++){
+                                    for(let counter = 0; counter < key.length; counter++){
+                                        this.element.style[key[counter]] = value[counter] 
+                                    }               
+                                }
+                            }
+                            else{
+                                for(let index = 0; index < this.element.length; index++){
+                                    for(let c = 0; c < shortKey.length; c++){
+                                        if(key == shortKey[c]){
+                                            this.element[index].style[JSyntax[c]] = value
+                                            log('A versão abreviada está instável, tome cuidado.', 2)
+                                            break
+                                        }
+                                        else{
+                                            if(element.style){
+                                                this.element[index].style[key] = value                    
+                                                break
+                                            }
+                                        
+                                        }
+                                    }
+                                }
+                                
+                                
+                            }
+                        }
+                    return this.element
                 }
                 else{
-                    exportElement = document.querySelector(value)
-                    if(exportElement){
-                        exportElement.getBy = 'id'
-                        exportElement.getIn = 'NhacScript'
-                        exportElement.infos = getInfo(exportElement)
+                    this.element = document.querySelector(value)
+                    if(this.element){
+                        this.element.getBy = 'class'
+                        this.element.getIn = 'NhacScript'
+                        this.element.infos = getVarInfo(this.element)
+                        // DOM EVENTS
+                            this.element.envClick = (event)=>{
+                                this.element.addEventListener('click', event)
+                            }
+                            this.element.envDBLClick = (event)=>{
+                                this.element.addEventListener('dblclick', event)
+                            }
+                            this.element.envLoad = (event)=>{
+                            this.element.addEventListener('load', event)
+                            }
+                            this.element.addEnv = (eventName, event)=>{
+                                this.element.addEventListener(eventName, event)
+                            } 
+                        // Styling
+                            this.element.css = (key, value)=>{
+                                var shortKey = [
+                                    'bg',
+                                    'bg-c',
+                                    'ta',
+                                    'sw',
+                                    'sh',
+                                    'aContent'
+                                ]
+                                var JSyntax = [
+                                    'background',
+                                    'backgroundColor',
+                                    'textAlign',
+                                    'width',
+                                    'height',
+                                    'alignContent'
+                                ]
+                                if(Array.isArray(key) == true && Array.isArray(value) == true){
+                                    for(let index = 0; index < this.element.length; index++){
+                                        for(let counter = 0; counter < key.length; counter++){
+                                            this.element.style[key[counter]] = value[counter] 
+                                        }               
+                                    }
+                                }
+                                else{
+                                    for(let index = 0; index < this.element.length; index++){
+                                        for(let c = 0; c < shortKey.length; c++){
+                                            if(key == shortKey[c]){
+                                                this.element[index].style[JSyntax[c]] = value
+                                                log('A versão abreviada está instável, tome cuidado.', 2)
+                                                break
+                                            }
+                                            else{
+                                                if(element.style){
+                                                    this.element[index].style[key] = value                    
+                                                    break
+                                                }
+                                            
+                                            }
+                                        }
+                                    }
+                                    
+                                    
+                                }
+                            }
                         log(`Ou você usou uma sintaxe errada ou obteve o elemento errado, verifique ${value}, qualquer coisa ente usar a função: "elmGSimple()"`, 2)   
-                        return exportElement
+                        return this.element
                     }
                 }
             }
             else if(type === 'other'){
-                exportElement = new Object
-                exportElement = document.querySelector(value)
-                if(exportElement){
-                    exportElement.isHtml = true
-                    exportElement.getBy = 'other'
-                    exportElement.getIn = 'NhacScript'
-                    
-                    return exportElement
+                this.element = new Object
+                this.element = document.querySelector(value)
+                if(this.element){
+                    this.element.isHtml = true
+                    this.element.getBy = 'other'
+                    this.element.getIn = 'NhacScript'
+                    // DOM EVENTS
+                        this.element.envClick = (event)=>{
+                            this.element.addEventListener('click', event)
+                        }
+                        this.element.envDBLClick = (event)=>{
+                            this.element.addEventListener('dblclick', event)
+                        }
+                        this.element.envLoad = (event)=>{
+                        this.element.addEventListener('load', event)
+                        }
+                        this.element.addEnv = (eventName, event)=>{
+                            this.element.addEventListener(eventName, event)
+                        } 
+                    // Styling
+                        this.element.css = (key, value)=>{
+                            var shortKey = [
+                                'bg',
+                                'bg-c',
+                                'ta',
+                                'sw',
+                                'sh',
+                                'aContent'
+                            ]
+                            var JSyntax = [
+                                'background',
+                                'backgroundColor',
+                                'textAlign',
+                                'width',
+                                'height',
+                                'alignContent'
+                            ]
+                            if(Array.isArray(key) == true && Array.isArray(value) == true){
+                                for(let counter = 0; counter < key.length; counter++){
+                                    this.element.style[key[counter]] = value[counter]                    
+                                }
+                            }
+                            else{
+                                for(let c = 0; c < shortKey.length; c++){
+                                    if(key == shortKey[c]){
+                                        this.element.style[JSyntax[c]] = value
+                                        log('A versão abreviada está instável, tome cuidado.', 2)
+                                        break
+                                    }
+                                    else{
+                                        if(element.style){
+                                            this.element.style[key] = value                    
+                                            break
+                                        }
+                                    
+                                    }
+                                }
+                                
+                            }
+                        }
+                    // Inner
+                        this.element.HTML = (content)=>{
+                            this.element.innerHTML = content
+                        }
+                        this.element.TXT = (content)=>{
+                            this.element.innerText = content
+                        }
+                        this.element.append = (content, method='html')=>{
+                            if(method == 'html'){
+                                this.element.innerHTML += content
+                            }
+                            else if(method == 'txt' || method == 'text'){
+                                this.element.innerText += content
+                            }
+                        }
+                        this.element.addText = (content)=>{
+                            this.element.innerText += content
+                        }
+                        this.element.addHTML = (content)=>{
+                            this.element.innerHTML += content
+                        } 
+                    return this.element
                 }
                 else{
-                    exportElement = document.querySelector(value)
-                    if(exportElement){
-                        exportElement.getBy = 'other'
-                        exportElement.getIn = 'NhacScript'
-                        exportElement.infos = getInfo(exportElement)
+                    this.element = document.querySelector(value)
+                    if(this.element){
+                        this.element.getBy = 'other'
+                        this.element.getIn = 'NhacScript'
+                        this.element.infos = getVarInfo(this.element)
+                        // DOM EVENTS
+                            this.element.envClick = (event)=>{
+                                this.element.addEventListener('click', event)
+                            }
+                            this.element.envDBLClick = (event)=>{
+                                this.element.addEventListener('dblclick', event)
+                            }
+                            this.element.envLoad = (event)=>{
+                            this.element.addEventListener('load', event)
+                            }
+                            this.element.addEnv = (eventName, event)=>{
+                                this.element.addEventListener(eventName, event)
+                            } 
+                        // Styling
+                            this.element.css = (key, value)=>{
+                                var shortKey = [
+                                    'bg',
+                                    'bg-c',
+                                    'ta',
+                                    'sw',
+                                    'sh',
+                                    'aContent'
+                                ]
+                                var JSyntax = [
+                                    'background',
+                                    'backgroundColor',
+                                    'textAlign',
+                                    'width',
+                                    'height',
+                                    'alignContent'
+                                ]
+                                if(Array.isArray(key) == true && Array.isArray(value) == true){
+                                    for(let counter = 0; counter < key.length; counter++){
+                                        this.element.style[key[counter]] = value[counter]                    
+                                    }
+                                }
+                                else{
+                                    for(let c = 0; c < shortKey.length; c++){
+                                        if(key == shortKey[c]){
+                                            this.element.style[JSyntax[c]] = value
+                                            log('A versão abreviada está instável, tome cuidado.', 2)
+                                            break
+                                        }
+                                        else{
+                                            if(element.style){
+                                                this.element.style[key] = value                    
+                                                break
+                                            }
+                                        
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                        // Inner
+                            this.element.HTML = (content)=>{
+                                this.element.innerHTML = content
+                            }
+                            this.element.TXT = (content)=>{
+                                this.element.innerText = content
+                            }
+                            this.element.append = (content, method='html')=>{
+                                if(method == 'html'){
+                                    this.element.innerHTML += content
+                                }
+                                else if(method == 'txt' || method == 'text'){
+                                    this.element.innerText += content
+                                }
+                            }
+                            this.element.addText = (content)=>{
+                                this.element.innerText += content
+                            }
+                            this.element.addHTML = (content)=>{
+                                this.element.innerHTML += content
+                            } 
                         log(`Ou você usou uma sintaxe errada ou obteve o elemento errado, verifique ${value}, qualquer coisa ente usar a função: "elmGSimple()"`, 2)   
-                        return exportElement
+                        return this.element
                     }
                 }
             }
             else{
-                exportElement = new Object
-                exportElement.element = document.querySelector(value)
-                    if(exportElement.element){
-                        exportElement.getBy = 'undefined'
-                        exportElement.getIn = 'NhacScript'
-                        exportElement.infos = getInfo(exportElement)
-                        log(`Você não declarou ou declarou um tipo errado de elemento e/ou usou uma sintaxe errada e possivelmente obteve o elemento errado, verifique ${value}, qualquer coisa ente usar a função: "elmGSimple()"`, 2)   
-                        return exportElement
-                    }
-                else{
-                    log(`O Tipo ${type} é invalido!, tente os seguintes: id, class, other`, 1)
-                    return undefined
-                }
+                log(`O Tipo ${type} é invalido!, tente os seguintes: id, class, other`, 1)
+                return undefined
+                
             }
         })
+        
