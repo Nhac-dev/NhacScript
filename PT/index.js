@@ -836,7 +836,11 @@
         function saveData(valueToSave){
             if(localStorage[name] && append == true)
             {
-                localStorage[name] += valueToSave
+                let oldVal = LS_Get(name)
+                let newArray = new Array
+                newArray.push(oldVal)
+                newArray.push(valueToSave)
+                localStorage[name] = toJSON(newArray)
             }
             else
             {
