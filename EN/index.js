@@ -333,14 +333,15 @@
                     {
                         for (let counter = 0; counter < key.length; counter++)
                         {
-                            if(key[counter] == arrayCssSyntax[counter])
-                            {
-                                element.style[arrayJSSyntax[counter]] = value[counter]
-                            } 
-                        else
-                        {
-                            element.style[key[counter]] = value[counter]
-                        }
+                            for (let counter = 0; counter < key.length; counter++) {
+                                let cssIndex =  arrayCssSyntax.indexOf(key[counter])
+                                if(cssIndex != -1){
+                                    element.style[arrayJSSyntax[cssIndex]] = value[counter]
+                                } 
+                                else{
+                                    element.style[key[counter]] = value[counter]
+                                }
+                            }
                         }
                     }
                     else if(Array.isArray(key) == false &&
@@ -354,8 +355,9 @@
                         var entries = Object.entries(key)
                         var keys = Object.keys(key)
                         for(let counter = 0; counter < entries.length; counter++){
-                            if(keys[counter] == arrayCssSyntax[counter]){
-                                element.style[arrayJSSyntax[counter]] = values[counter] 
+                            let cssIndex =  arrayCssSyntax.indexOf(key[counter])
+                            if(cssIndex != -1){
+                                element.style[arrayJSSyntax[cssIndex]] = values[counter] 
                             }
                             else{
                                 element.style[keys[counter]] = values[counter] 
@@ -364,7 +366,9 @@
                     }
                     else
                     {
-                    element.style[key] = value                 
+                        let cssIndex =  arrayCssSyntax.indexOf(key[counter])
+                        if(cssIndex != -1)  element.style[arrayJSSyntax[cssIndex]] = value                 
+                        else element.style[key] = value                 
                     }
                 }
                 this.HTML = (content)=>{
@@ -595,61 +599,77 @@
     // CSS
         class css {
             constructor(element){
-                var arrayCssSyntax = [
-                    'background-color',
-                    'background-position',
-                    'text-align',
-                    'align-content',
-                    'margin-top',
-                    'margin-bottom',
-                    'margin-left',
-                    'margin-right',
-                    'text-decoration',
-                    'font-family',
-                    'font-size'
-                ]    
-                var arrayJSSyntax = [
-                    'backgroundColor',
-                    'backgroundPosition',
-                    'textAlign',
-                    'alignContent',
-                    'marginTop',
-                    'marginBottom',
-                    'marginLeft',
-                    'marginRight',
-                    'textDecoration',
-                    'fontFamily',
-                    'fontSize',
-                ]
-                this.css = (key, value)=>{
-                    if (Array.isArray(key) == true && Array.isArray(value) == true) {
-                        for (let counter = 0; counter < key.length; counter++) {
-                            if(key[counter] == arrayCssSyntax[counter]){
-                                element.style[arrayJSSyntax[counter]] = value[counter]
-                            } 
-                        else{
-                            element.style[key[counter]] = value[counter]
-                        }
+                this.css = (key, 
+                    value)=>
+                {
+                    var arrayCssSyntax = [
+                        'background-color',
+                        'background-position',
+                        'text-align',
+                        'align-content',
+                        'margin-top',
+                        'margin-bottom',
+                        'margin-left',
+                        'margin-right',
+                        'text-decoration',
+                        'font-family',
+                        'font-size'
+                    ]    
+                    var arrayJSSyntax = [
+                        'backgroundColor',
+                        'backgroundPosition',
+                        'textAlign',
+                        'alignContent',
+                        'marginTop',
+                        'marginBottom',
+                        'marginLeft',
+                        'marginRight',
+                        'textDecoration',
+                        'fontFamily',
+                        'fontSize',
+                    ]
+                    // Verification array, the array KEY is the css key, and the array VALUE is the css proprieties
+                    if (Array.isArray(key) == true &&
+                    Array.isArray(value) == true)
+                    {
+                        for (let counter = 0; counter < key.length; counter++)
+                        {
+                            for (let counter = 0; counter < key.length; counter++) {
+                                let cssIndex =  arrayCssSyntax.indexOf(key[counter])
+                                if(cssIndex != -1){
+                                    element.style[arrayJSSyntax[cssIndex]] = value[counter]
+                                } 
+                                else{
+                                    element.style[key[counter]] = value[counter]
+                                }
+                            }
                         }
                     }
-                    else if(Array.isArray(key) == false && typeof(key) == 'object'){
-                        if(value){
+                    else if(Array.isArray(key) == false &&
+                        typeof(key) == 'object')
+                    {
+                        if(value)
+                        {
                             log('Since the key is an object, the value is unnecessary', 2)
                         }
                         var values = Object.values(key)
                         var entries = Object.entries(key)
                         var keys = Object.keys(key)
                         for(let counter = 0; counter < entries.length; counter++){
-                            if(keys[counter] == arrayCssSyntax[counter]){
-                                element.style[arrayJSSyntax[counter]] = values[counter] 
+                            let cssIndex =  arrayCssSyntax.indexOf(key[counter])
+                            if(cssIndex != -1){
+                                element.style[arrayJSSyntax[cssIndex]] = values[counter] 
                             }
                             else{
                                 element.style[keys[counter]] = values[counter] 
                             }
                         }
                     }
-                    else {
-                    element.style[key] = value                 
+                    else
+                    {
+                        let cssIndex =  arrayCssSyntax.indexOf(key[counter])
+                        if(cssIndex != -1)  element.style[arrayJSSyntax[cssIndex]] = value                 
+                        else element.style[key] = value                 
                     }
                 }
                 return this.css
