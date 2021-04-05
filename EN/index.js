@@ -441,7 +441,7 @@
                     }
                     else if(Array.isArray(attribute) == false && typeof(attribute) == 'object'){
                         if(value){
-                            $l('Since the attribute is an object, the value is unnecessary', 2)
+                            log('Since the attribute is an object, the value is unnecessary', 2)
                         }
                         var values = Object.values(attribute)
                         var entries = Object.entries(attribute)
@@ -463,7 +463,7 @@
                     }
                     else if(Array.isArray(attribute) == false && typeof(attribute) == 'object'){
                         if(value){
-                            $l('Since the attribute is an object, the value is unnecessary', 2)
+                            log('Since the attribute is an object, the value is unnecessary', 2)
                         }
                         var values = Object.values(attribute)
                         var entries = Object.entries(attribute)
@@ -733,7 +733,7 @@
                         }
                         else if(Array.isArray(attribute) == false && typeof(attribute) == 'object'){
                             if(value){
-                                $l('Since the attribute is an object, the value is unnecessary', 2)
+                                log('Since the attribute is an object, the value is unnecessary', 2)
                             }
                             var values = Object.values(attribute)
                             var entries = Object.entries(attribute)
@@ -760,7 +760,7 @@
                         }
                         else if(Array.isArray(attribute) == false && typeof(attribute) == 'object'){
                             if(value){
-                                $l('Since the attribute is an object, the value is unnecessary', 2)
+                                log('Since the attribute is an object, the value is unnecessary', 2)
                             }
                             var values = Object.values(attribute)
                             var entries = Object.entries(attribute)
