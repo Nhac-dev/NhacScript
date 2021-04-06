@@ -174,113 +174,129 @@ const log = (message, type, forceStop)=>{
         class DOM{
             constructor(element, list, lengthList){
                 if(list == void 0 && lengthList == void 0) list = false 
-                if(list == true && lengthList < 0) log("Desculpe, mas tem que indicar o tamanho da lista.", 1, true)
-                this.addEnv = (eventName, eventTask)=>{
-                    if(list == false) element.addEventListener(eventName, eventTask)
-                    else{
-                        for(let idx=0; idx < lengthList; idx++){
-                            element[idx].addEventListener(eventName, eventTask)
-                        }
+                if(list == true && lengthList < 0) log("Sorry, but you have to indicate the size of the list.", 1, true)
+                
+                if(list == false){
+                    this.addEnv = (eventName, eventTask)=>{
+                        element.addEventListener(eventName, eventTask)
                     }
-                }
-                this.click = (event)=>{
-                    if(list == false){
+                    this.click = (event)=>{
                         if(event && typeof(event) == 'function') element.addEventListener('click', event)
                         else{
                             if(!event)element.click()
-                            else if(typeof(event) != 'function')log(`O argumento solicitado não é uma função.`, 1)
-                        }    
+                            else if(typeof(event) != 'function') log(`The requested argument is not a function.`, 1)
+                        }  
                     }
-                    else{
+                    this.dbClick = (event)=>{
+                        element.addEventListener('dblclick', event)
+                    }
+
+                    this.onChange = (event)=>{
+                        element.addEventListener('change', event)
+                    }
+                    this.load = (event)=>{
+                        element.addEventListener('load', event)
+                    }
+                    this.sub = (event)=>{
+                        element.addEventListener('submit', event)
+                    }     
+                    this.keyPress = (event)=>{
+                        element.addEventListener("keypress", event)
+                    }
+                    this.theKeyPress = (keyCode, event, codeOrKey)=>{
+                        if(codeOrKey == void 0) codeOrKey = "code"
+                        element.addEventListener("keypress", (env)=>{
+                            if(env[codeOrKey] == keyCode) event()
+                        })
+                    }
+                }
+            
+                else{
+                    this.addEnv = (eventName, eventTask)=>{
+                        for(let idx=0; idx < lengthList; idx++){
+                            element[idx].addEventListener(eventName, eventTask)
+                        }                        
+                    }
+                    this.click = (event)=>{
                         for(let idx=0; idx < lengthList; idx++){
                             if(event && typeof(event) == 'function') element[idx].addEventListener('click', event)
                             else{
-                                if(!event) log("Desculpa, mas este tipo de função só funciona apenas para funções que não são lista.", 1)
-                                else if(typeof(event) != 'function')log(`O argumento solicitado não é uma função.`, 1)
+                                if(!event) log("Sorry, but this type of function only works for non-list functions.", 1)
+                                else if(typeof(event) != 'function') log(`The requested argument is not a function.`, 1)
                             }
-                        }
+                        }                
                     }
-                }
-                this.dbClick = (event)=>{
-                    if(list == false) element.addEventListener('dblclick', event)
-                    else{
+                    this.dbClick = (event)=>{
                         for(let idx=0; idx < lengthList; idx++){
                             if(event && typeof(event) == 'function') element[idx].addEventListener('dblclick', event)
                             else{
-                                log(`O argumento solicitado não é uma função.`, 1)
+                                log(`The requested argument is not a function.`, 1)
                             }
                         }
                     }
-                }
-                this.onChange = (event)=>{
-                    if(list == false) element.addEventListener('change', event)
-                    else{
+                    this.onChange = (event)=>{
                         for(let idx=0; idx < lengthList; idx++){
                             if(event && typeof(event) == 'function') element[idx].addEventListener('change', event)
                             else{
-                                log(`O argumento solicitado não é uma função.`, 1)
+                                log(`The requested argument is not a function.`, 1)
                             }
                         }
                     }
-                }
-                this.load = (event)=>{
-                    if(list == false) element.addEventListener('load', event)
-                    else{
+                    this.load = (event)=>{
                         for(let idx=0; idx < lengthList; idx++){
                             if(event && typeof(event) == 'function') element[idx].addEventListener('load', event)
                             else{
-                                log(`O argumento solicitado não é uma função.`, 1)
+                                log(`The requested argument is not a function.`, 1)
                             }
                         }
                     }
-                }
-                this.sub = (event)=>{
-                    if(list == false) element.addEventListener('submit', event)
-                    else{
+                    this.sub = (event)=>{  
                         for(let idx=0; idx < lengthList; idx++){
                             if(event && typeof(event) == 'function') element[idx].addEventListener('submit', event)
                             else{
-                                log(`O argumento solicitado não é uma função.`, 1)
+                                log(`The requested argument is not a function.`, 1)
                             }
                         }
-                    }
-                }     
+                    }  
+                }
             }
         }
         class AttributesManipulator{
             constructor(element, list, lengthList){
                 if(list == void 0 && lengthList == void 0) list = false 
-                if(list == true && lengthList < 0) log("Desculpe, mas tem que indicar o tamanho da lista.", 1, true)
+                if(list == true && lengthList < 0) log("Sorry, but you must indicate the size of the list.", 1, true)
 
-                // Css And Content Manipulation 
-                    this.css = (key,value)=>{
-                        var arrayCssSyntax = [
-                            'background-color',
-                            'background-position',
-                            'text-align',
-                            'align-content',
-                            'margin-top',
-                            'margin-bottom',
-                            'margin-left',
-                            'margin-right',
-                            'text-decoration',
-                            'font-family',
-                            'font-size'
-                        ]    
-                        var arrayJSSyntax = [
-                            'backgroundColor',
-                            'backgroundPosition',
-                            'textAlign',
-                            'alignContent',
-                            'marginTop',
-                            'marginBottom',
-                            'marginLeft',
-                            'marginRight',
-                            'textDecoration',
-                            'fontFamily',
-                            'fontSize',
-                        ]
-                        if(list == false) (()=>{
+
+                if(list == false){
+                    // Css And Content Manipulation 
+                        this.css = (key,value)=>{
+                            var arrayCssSyntax = [
+                                'background-color',
+                                'background-position',
+                                'text-align',
+                                'align-content',
+                                'margin-top',
+                                'margin-bottom',
+                                'margin-left',
+                                'margin-right',
+                                'text-decoration',
+                                'font-family',
+                                'font-size'
+                            ]    
+                            var arrayJSSyntax = [
+                                'backgroundColor',
+                                'backgroundPosition',
+                                'textAlign',
+                                'alignContent',
+                                'marginTop',
+                                'marginBottom',
+                                'marginLeft',
+                                'marginRight',
+                                'textDecoration',
+                                'fontFamily',
+                                'fontSize',
+                            ]
+                            
                             if (Array.isArray(key) == true && Array.isArray(value) == true){
                                 for (let counter = 0; counter < key.length; counter++){
                                     for (let counter = 0; counter < key.length; counter++) {
@@ -291,7 +307,7 @@ const log = (message, type, forceStop)=>{
                                 }
                             }
                             else if(Array.isArray(key) == false && typeof(key) == 'object'){
-                                if(value) log('Como a chave é um objeto, o valor é desnecessário', 2)
+                                if(value) log('Como a chave é um objeto, então o parâmetro value é desnecessário', 2)
                                 var values = Object.values(key)
                                 var entries = Object.entries(key)
                                 var keys = Object.keys(key)
@@ -306,74 +322,22 @@ const log = (message, type, forceStop)=>{
                                 if(cssIndex != -1) element.style[arrayJSSyntax[cssIndex]] = value                 
                                 else element.style[key] = value                 
                             }
-                        })()
-                        else{
-                            for(let idx=0; idx < lengthList; idx++){
-                                if (Array.isArray(key) == true && Array.isArray(value) == true){
-                                    for (let counter = 0; counter < key.length; counter++){
-                                        for (let counter = 0; counter < key.length; counter++) {
-                                            let cssIndex =  arrayCssSyntax.indexOf(key[counter])
-                                            if(cssIndex != -1) element[idx].style[arrayJSSyntax[cssIndex]] = value[counter]
-                                            else element[idx].style[key[counter]] = value[counter]
-                                        }
-                                    }
-                                }
-                                else if(Array.isArray(key) == false && typeof(key) == 'object'){
-                                    if(value) log('Como a chave é um objeto, o valor é desnecessário', 2)
-                                    var values = Object.values(key)
-                                    var entries = Object.entries(key)
-                                    var keys = Object.keys(key)
-                                    for(let counter = 0; counter < entries.length; counter++){
-                                        let cssIndex =  arrayCssSyntax.indexOf(key[counter])
-                                        if(cssIndex != -1) element[idx].style[arrayJSSyntax[cssIndex]] = values[counter] 
-                                        else element[idx].style[keys[counter]] = values[counter] 
-                                    }
-                                }
-                                else{
-                                    let cssIndex = arrayCssSyntax.indexOf(key)
-                                    if(cssIndex != -1) element[idx].style[arrayJSSyntax[cssIndex]] = value                 
-                                    else element[idx].style[key] = value                 
-                                }
-                            }
                         }
-                        // Verification array, the array KEY is the css key, and the array VALUE is the css proprieties
                         
-                    }
-                    this.HTML = (content)=>{
-                        if(list == false) element.innerHTML = content
-                        else{
-                            for(let idx=0; idx < lengthList; idx++){
-                                element[idx].innerHTML = content
-                            }
+                        this.HTML = (content)=>{
+                            element.innerHTML = content
                         }
-                    }
-                    this.TXT = (content)=>{
-                        if(list == false) element.innerText = content
-                        else{
-                            for(let idx=0; idx < lengthList; idx++){
-                                element[idx].innerTXT = content
-                            }
+                        this.TXT = (content)=>{
+                            element.innerText = content
                         }
-                    }
-                    this.addTXT = (content)=>{
-                        if(list == false) element.innerText += content
-                        else{
-                            for(let idx=0; idx < lengthList; idx++){
-                                element[idx].innerTXT += content
-                            }
+                        this.addTXT = (content)=>{
+                            element.innerText += content
                         }
-                    }
-                    this.addHTML = (content)=>{
-                        if(list == false) element.innerHtml += content
-                        else{
-                            for(let idx=0; idx < lengthList; idx++){
-                                element[idx].innerHTML += content
-                            }
+                        this.addHTML = (content)=>{
+                            element.innerHtml += content
                         }
-                    }
-                // HTML Class
-                    this.rmClass = (value)=>{
-                        if(list == false){
+                    // HTML Class
+                        this.rmClass = (value)=>{
                             var classList = element.classList
                             if(classList.contains(value) == true){
                                 if(typeof(value) == 'object' && Array.isArray(value) == true){
@@ -385,25 +349,7 @@ const log = (message, type, forceStop)=>{
                                 else element.classList.remove(value)
                             }
                         }
-                        else{
-                            for (let idx = 0; idx < element.length; idx++) {     
-                                var classList = element[idx].classList
-                                if(classList.contains(value) == true){
-                                    if(typeof(value) == 'object' && Array.isArray(value) == true){
-                                        
-                                        for(let c = 0; c < value; c++){
-                                            element[idx].classList.remove(value[c])
-                                        }
-                                    }
-                                    else element[idx].classList.remove(value)
-                                }       
-                            }
-                        }
-                        
-                    }
-                    this.mkClass = (value)=>{
-                        
-                        if(list == false){
+                        this.mkClass = (value)=>{
                             var classList = element.classList
                             if(classList.contains(value) != true){
                                 if(typeof(value) == 'object' && Array.isArray(value) == true){
@@ -416,27 +362,8 @@ const log = (message, type, forceStop)=>{
                                 
                             }
                         }
-                        else{
-                            for (let idx = 0; idx < element.length; idx++) { 
-                                var classList = element[idx].classList
-                                if(classList.contains(value) != true){
-                                    if(typeof(value) == 'object' && Array.isArray(value) == true){
-                                        let c = 0
-                                        for(c in value){
-                                            element[idx].classList.add(value[c])
-                                        }
-                                    }
-                                    else element[idx].classList.add(value)
-                                    
-                                }                
-                            }
-                        }
-                       
-                    }
-                    this.val = (newValue, history)=>{
-                        if(history == void 0) history = false
-                        
-                        if(list == false){
+                        this.val = (newValue, history)=>{
+                            if(history == void 0) history = false
                             if(newValue){
                                 const oldVal = element.value
                                 element.value = newValue
@@ -452,41 +379,18 @@ const log = (message, type, forceStop)=>{
                             else{
                                 return element.value
                             }
-                        }
-                        else{
-                            const oldsValue = new Array
-                            const elmName = new Array
                             
-                                for (let idx = 0; idx < element.length; idx++) { 
-                                    element[idx].value = newValue
-                                    oldsValue.push(element[idx].value)
-                                    elmName.push(element[idx].objectName)
-                                    
-                                }
-                               
-                                if(history == false) return newValue
-                                else{  
-                                    return[{
-                                        oldsValue: oldsValue,
-                                        valuesNow: newValue
-                                    },
-                                        elmName
-                                    ]
-                                }
-                            
-                        }
                         
-                    }
-                    this.mkAttr = (attribute, value)=>{
-                        if(list == false){
+                            
+                        }
+                        this.mkAttr = (attribute, value)=>{
                             if(Array.isArray(attribute) && Array.isArray(value)){
                                 for(let c = 0; c < attribute.length; c++){
                                     element.setAttribute(attribute[c], value[c])
                                 }
                             }
                             else if(Array.isArray(attribute) == false && typeof(attribute) == 'object'){
-                                if(value) log('Como a chave é um objeto, o valor é desnecessário', 2)
-                                
+                                if(value) log('Como o parâmetro attribute é um objeto, então o parâmetro value é desnecessário', 2)
                                 var values = Object.values(attribute)
                                 var entries = Object.entries(attribute)
                                 var keys = Object.keys(attribute)
@@ -495,34 +399,9 @@ const log = (message, type, forceStop)=>{
                                     element.setAttribute(keys[counter], values[counter])
                                 }
                             }
-                            else element.setAttribute(attribute, value)
+                            else element.setAttribute(attribute, value)                        
                         }
-                        else{
-                            for (let idx = 0; idx < element.length; idx++) {        
-                                if(Array.isArray(attribute) && Array.isArray(value)){
-                                    for(let c = 0; c < attribute.length; c++){
-                                        element[idx].setAttribute(attribute[c], value[c])
-                                    }
-                                }
-                                else if(Array.isArray(attribute) == false && typeof(attribute) == 'object'){
-                                    if(value) log('Como a chave é um objeto, o valor é desnecessário', 2)
-                                    
-                                    var values = Object.values(attribute)
-                                    var entries = Object.entries(attribute)
-                                    var keys = Object.keys(attribute)
-                                    var counter = 0
-                                    for(counter in entries){
-                                        element[idx].setAttribute(keys[counter], values[counter])
-                                    }
-                                }
-                                else element[idx].setAttribute(attribute, value)         
-                            }
-                        }
-                        
-                        
-                    }
-                    this.rmAttr = (attribute)=>{
-                        if(list == false){
+                        this.rmAttr = (attribute)=>{
                             if(Array.isArray(attribute)){
                                 for(let c = 0; c < attribute.length; c++){
                                     element.removeAttribute(attribute[c])
@@ -539,7 +418,159 @@ const log = (message, type, forceStop)=>{
                             }
                             else element.removeAttribute(attribute)
                         }
-                        else{
+                }
+                else{
+                    // Css And Content Manipulation 
+                        this.css = (key,value)=>{
+                            var arrayCssSyntax = [
+                                'background-color',
+                                'background-position',
+                                'text-align',
+                                'align-content',
+                                'margin-top',
+                                'margin-bottom',
+                                'margin-left',
+                                'margin-right',
+                                'text-decoration',
+                                'font-family',
+                                'font-size'
+                            ]    
+                            var arrayJSSyntax = [
+                                'backgroundColor',
+                                'backgroundPosition',
+                                'textAlign',
+                                'alignContent',
+                                'marginTop',
+                                'marginBottom',
+                                'marginLeft',
+                                'marginRight',
+                                'textDecoration',
+                                'fontFamily',
+                                'fontSize',
+                            ]
+                            
+                            for(let idx=0; idx < lengthList; idx++){
+                                if (Array.isArray(key) == true && Array.isArray(value) == true){
+                                    for (let counter = 0; counter < key.length; counter++){
+                                        for (let counter = 0; counter < key.length; counter++) {
+                                            let cssIndex =  arrayCssSyntax.indexOf(key[counter])
+                                            if(cssIndex != -1) element[idx].style[arrayJSSyntax[cssIndex]] = value[counter]
+                                            else element[idx].style[key[counter]] = value[counter]
+                                        }
+                                    }
+                                }
+                                else if(Array.isArray(key) == false && typeof(key) == 'object'){
+                                    if(value) log('Como a chave é um objeto, então o parâmetro value é desnecessário', 2)
+                                    var values = Object.values(key)
+                                    var entries = Object.entries(key)
+                                    var keys = Object.keys(key)
+                                    for(let counter = 0; counter < entries.length; counter++){
+                                        let cssIndex =  arrayCssSyntax.indexOf(key[counter])
+                                        if(cssIndex != -1) element[idx].style[arrayJSSyntax[cssIndex]] = values[counter] 
+                                        else element[idx].style[keys[counter]] = values[counter] 
+                                    }
+                                }
+                                else{
+                                    let cssIndex = arrayCssSyntax.indexOf(key)
+                                    if(cssIndex != -1) element[idx].style[arrayJSSyntax[cssIndex]] = value                 
+                                    else element[idx].style[key] = value                 
+                                }
+                            }
+                        }
+                        this.HTML = (content)=>{
+                            for(let idx=0; idx < lengthList; idx++){
+                                element[idx].innerHTML = content
+                            }  
+                        }
+                        this.TXT = (content)=>{
+                            for(let idx=0; idx < lengthList; idx++){
+                                element[idx].innerTXT = content
+                            }
+                        }
+                        this.addTXT = (content)=>{
+                            for(let idx=0; idx < lengthList; idx++){
+                                element[idx].innerTXT += content
+                            }
+                        }
+                        this.addHTML = (content)=>{
+                            for(let idx=0; idx < lengthList; idx++){
+                                element[idx].innerHTML += content
+                            }
+                        }
+                    // HTML Class
+                        this.rmClass = (value)=>{
+                            for (let idx = 0; idx < element.length; idx++) {     
+                                var classList = element[idx].classList
+                                if(classList.contains(value) == true){
+                                    if(typeof(value) == 'object' && Array.isArray(value) == true){
+                                        
+                                        for(let c = 0; c < value; c++){
+                                            element[idx].classList.remove(value[c])
+                                        }
+                                    }
+                                    else element[idx].classList.remove(value)
+                                }       
+                            }
+                        }
+                        this.mkClass = (value)=>{
+                            for (let idx = 0; idx < element.length; idx++) { 
+                                var classList = element[idx].classList
+                                if(classList.contains(value) != true){
+                                    if(typeof(value) == 'object' && Array.isArray(value) == true){
+                                        let c = 0
+                                        for(c in value){
+                                            element[idx].classList.add(value[c])
+                                        }
+                                    }
+                                    else element[idx].classList.add(value)
+                                    
+                                }                
+                            }
+                        }
+                        this.val = (newValue, history)=>{
+                            const oldsValue = new Array
+                                const elmName = new Array
+                                
+                                    for (let idx = 0; idx < element.length; idx++) { 
+                                        element[idx].value = newValue
+                                        oldsValue.push(element[idx].value)
+                                        elmName.push(element[idx].objectName)
+                                        
+                                    }
+                                
+                                    if(history == false) return newValue
+                                    else{  
+                                        return[{
+                                            oldsValue: oldsValue,
+                                            valuesNow: newValue
+                                        },
+                                            elmName
+                                        ]
+                                    }
+                                
+                        }
+                        this.mkAttr = (attribute, value)=>{
+                            for (let idx = 0; idx < element.length; idx++) {        
+                                if(Array.isArray(attribute) && Array.isArray(value)){
+                                    for(let c = 0; c < attribute.length; c++){
+                                        element[idx].setAttribute(attribute[c], value[c])
+                                    }
+                                }
+                                else if(Array.isArray(attribute) == false && typeof(attribute) == 'object'){
+                                    if(value) log('Since the attribute is an object, the value is unnecessary', 2)
+
+                                    var values = Object.values(attribute)
+                                    var entries = Object.entries(attribute)
+                                    var keys = Object.keys(attribute)
+                                    var counter = 0
+                                    for(counter in entries){
+                                        element[idx].setAttribute(keys[counter], values[counter])
+                                    }
+                                }
+                                else element[idx].setAttribute(attribute, value)         
+                            }
+                        }
+                        this.rmAttr = (attribute)=>{
                             for (let idx = 0; idx < element.length; idx++) {  
                                 if(Array.isArray(attribute)){
                                     for(let c = 0; c < attribute.length; c++){
@@ -557,15 +588,16 @@ const log = (message, type, forceStop)=>{
                                 else element[idx].removeAttribute(attribute)               
                             }
                         }
-                        
-                        
-                    }
+                
+                }
+                
+                
             } 
         }
         class NS_DOM{
             constructor(element, list, lengthList){
                 if(list == void 0 && lengthList == void 0) list = false 
-                if(list == true && lengthList < 0) log("Desculpe, mas tem que indicar o tamanho da lista.", 1, true)
+                if(list == true && lengthList < 0) log("Sorry, but you have to indicate the size of the list.", 1, true)
                 
                 let dom = new DOM(element, list, lengthList)
                 let attrDom = new AttributesManipulator(element, list, lengthList)
@@ -585,6 +617,9 @@ const log = (message, type, forceStop)=>{
                 this.eLoad = dom.load
                 this.eChange = dom.onChange
                 this.addEnv = dom.addEnv
+                this.eKeyPress = dom.keyPress
+                this.theKeyPress = dom.theKeyPress
+                
             }
         }
     // On get

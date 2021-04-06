@@ -48,3 +48,8 @@
         myElm.element // Native JS element manipulation
         myElm.CSS () // Example for using the NS attributes
     3 - new param in log(), now the log params is (message, type, forceStop), in documentation i teach about message and type, o forceStop have are a bool value. If true, the program is stopped, else, the program as run. 
+# NhacScript 2.0.2-2
+## Changes
+- 1 - Fix Bugs 
+- 2 - Two New DOM Event
+- - eKeyPress(event) and theKeyPress(keyCode, event, codeOrKey)
