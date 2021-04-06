@@ -31,7 +31,7 @@
         If the params is "<tagName>" the attributes "getWhit" is tag.
         Example to get:
             const myList = HTGetList(".tabs")
-            const Table = HTGetList("<table>")
+            const Table = HLGet("<table>")
 ### Changes
     1 - The functions used to be made as a variable: 
         const name Func =  (params) => {} 
