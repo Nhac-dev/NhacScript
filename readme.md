@@ -53,3 +53,12 @@
 - 1 - Fix Bugs 
 - 2 - Two New DOM Event
 - - eKeyPress(event) and theKeyPress(keyCode, event, codeOrKey)
+# NhacScript 2.0.2-4
+## Add
+* Add new function:
+* - setResponsive(mobile, desktop)
+* - NS_JSON(obj)
+* - createElm(tag, set)
+* - JS DOC - only in Portuguese
+* Add new Class
+* - builderElement
