@@ -3,11 +3,13 @@
     The main objective of the project is to help your web developer.
     So I created a minimal version with my ideas and things made for me.
 
-    Author: Jefferson Silva de Souza/Nhac
-    GitHub Nick: Nhac-dev || https://github.com/Nhac-dev
-    Language Logs: EN
-    Version: 2.0.2-4 - Beta Version
-    // Release note
+    const info = {
+        Author: Jefferson Silva de Souza/Nhac
+        GitHub Nick: Nhac-dev || https://github.com/Nhac-dev
+        Language Logs: PT
+        Version: 2.0.3-1 - Beta 
+        type: beta
+    }
 
     Repository link: https://github.com/Nhac-dev/NhacScript
     Creator Instagram: https://www.instagram.com/nhac_dev/
@@ -15,7 +17,7 @@
 /**
  * @function log foi criado pensando na depuração dos códigos, estamos bastante acostumados com o console.log. Dai que vem o log()
  * @param {string} message Ponha uma mensagem para poder debugar teu código 
- * @param {numvber} type Selecione o tipo de debug, log(0), error(1), aviso(2) e table(3)
+ * @param {number} type Selecione o tipo de debug, log(0), error(1), aviso(2) e table(3)
  * @param {boolean} forceStop deseja parar toda aplicação? Caso o type seja 1 você pode por true neste parâmetro 
  */
 const log = (message, type, forceStop)=>{
@@ -216,8 +218,8 @@ const log = (message, type, forceStop)=>{
         return res
     } 
     /**
-     * 
-     * @param {} JSONString 
+     * Quer converter JSON para objeto?
+     * @param {string} JSONString 
      * @returns 
      */
     function toObj(JSONString){
@@ -328,8 +330,7 @@ const log = (message, type, forceStop)=>{
     function toStr(target){
         let res
         if(target){
-            if(typeof(target) != 'string')
-            {
+            if(typeof(target) != 'string'){
                 if(typeof(target) != 'object')
                 {
                     res = target.toString()
@@ -340,14 +341,11 @@ const log = (message, type, forceStop)=>{
                     res = JSON.stringify(target)
                 }
                 
-            }
-            else
-            {
+            }else{
                 log('Este elemento já é uma string.', 1)
-                res = Error
+                res = new Error("Este elemento já é uma string")
             }
-        }else
-        {
+        }else{
             log(`Operação impossível! Faltam argumentos para concluir esta tarefa!`, 2)
             return NaN
         }
@@ -816,6 +814,9 @@ const log = (message, type, forceStop)=>{
                 
             }
         }
+        /**
+         * @class builderElement construirá um a função para criação de elementos, contento o this.CreateElement e alguns encurtadores(this.btn, this.input)
+        */
         class builderElement{
             constructor(){
                 this.CreateElement = (tag, set)=>{
@@ -898,7 +899,8 @@ const log = (message, type, forceStop)=>{
                                 minWidth: "50px",
                                 minHeight: "25px",
                                 border: "0",
-                                borderRadius: "10px"
+                                borderRadius: "10px",
+                                cursor: "pointer"
                             }
                         })
                     }else{
@@ -929,17 +931,7 @@ const log = (message, type, forceStop)=>{
                     }
                     return inp
                 } 
-                this.link = (set)=>{
-                    if(!set) log("Desculpa, mas no link você deve por o parâmetro, pois precisamos da chave href!", 1, true)
-                    else{
-                        if(typeof set != "object") log("O tipo de set não é um objeto", 1, true)
-                        else{
-                            let elm = this.CreateElement("<link>", set)
-                            return elm
-                        }
-                    } 
-                }
-                
+
             }
         }
     // On get
@@ -982,9 +974,9 @@ const log = (message, type, forceStop)=>{
                 else log(`O objeto solicitado não existe ou a sintaxe está incorreta, verifique: >"${sintaxe}"<`, 1)
             }
         } 
-         /**
+        /**
          * Usado para construir o uma NODELIST ou um Array com TagsList do DOM retornado pelo HTLet
-         */
+        */
         class NS_Get_List{
             constructor(syntax){
                 let typeSearch 
@@ -1052,7 +1044,7 @@ const log = (message, type, forceStop)=>{
         const createElm = new builderElement()
 
         /**
-         * 
+         * Retornará uma lista com vários objetos html
          * @param {string} syntax ponha uma string para receber um objecto/array com vários elementos com a mesma indicação
          * ".className" or "< tagName >" obj: os "<" ">" são junto do texto, o JS Doc não suporta esta syntax
          * @returns 
@@ -1132,13 +1124,21 @@ const log = (message, type, forceStop)=>{
         /**
          * Obtém o valor do local storage   
          * @param {string} name Ponha o nome do storage que deseja obter o valor
+         * @param {boolean} convert Ponha um valor booleano se quer converter ou não
+         * @param {string} type Ponha "string" para retornar string, "object" para retornar objeto/array e "number" para retornar flutuante ou inteiro 
          */
-        function LS_Get (name){
-            let recibe =localStorage[name] 
-            try {
+        function LS_Get (name, convert, type){
+            let recibe = localStorage[name] 
+
+            if(convert == void 0) convert = false
+            if(type == void 0 && convert != false)  log("Você não pode marcar que vai converter e não por o tipo.", 1)
+            
+            if(type == "string"){
+                recibe = toStr(recibe)
+            }else if(type == "object"){
                 recibe = toObj(recibe)
-            } catch{
-                recibe = recibe
+            }else if(type == "number"){
+                recibe = toNum(recibe)
             }
             return recibe
         }

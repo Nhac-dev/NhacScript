@@ -3,16 +3,23 @@
     The main objective of the project is to help your web developer.
     So I created a minimal version with my ideas and things made for me.
 
-    Author: Jefferson Silva de Souza/Nhac
-    GitHub Nick: Nhac-dev || https://github.com/Nhac-dev
-    Language Logs: EN
-    Version: 2.0.2-2 Beta Version - Bugs fix
-    // Release note
-    Documentation Page - https://doc-nscript.web.app/
+    const info = {
+        Author: Jefferson Silva de Souza/Nhac
+        GitHub Nick: Nhac-dev || https://github.com/Nhac-dev
+        Language Logs: EN
+        Version: 2.0.3-1 - Beta 
+        type: beta
+    }
+
     Repository link: https://github.com/Nhac-dev/NhacScript
     Creator Instagram: https://www.instagram.com/nhac_dev/
 */
-
+/**
+  * @function log was created thinking about debugging the codes, we are quite used to console.log. Hence the log ()
+  * @param {string} message Put a message in order to debug your code
+  * @param {number} type Select the type of debug, log(0), error(1), warning(2) and table(3)
+  * @param {boolean} forceStop want to stop every application? If the type is 1 you can set this parameter to true
+*/
 const log = (message, type, forceStop)=>{
     if(type == void 0) type=0
     if(forceStop == void 0) forceStop=false
@@ -35,142 +42,325 @@ const log = (message, type, forceStop)=>{
 
 }
 // Conversor
-/**
- * toJSON pretende converter objetos e arrays para JSON.
- * @param object ponha uma variável do tipo object.
- * 
-**/
-function toJSON(object){
-    let res
+    /**
+      * toJSON intends to convert objects and arrays to JSON.
+      * @param {Object} object put a variable of type object.
+      * @returns {Object}
+     **/
+    function toJSON(object){
+        let res
 
-    try{
-        res = JSON.stringify(object)
-        if(typeof object != "object") {
+        try{
+            res = JSON.stringify(object)
+            if(typeof object != "object") {
+                res = new Error("The argument not are a object.")
+                log(res, 1)
+            }
+        }
+        catch{
             res = new Error("The argument not are a object.")
             log(res, 1)
         }
+        return res
     }
-    catch{
-        res = new Error("The argument not are a object.")
-        log(res, 1)
-    }
-    return res
-}
-
-function toObj(JSONString){
-    let res
-    try{
-        res = JSON.parse(JSONString)
-    }
-    catch{
-        res = new Error("The argument not are a JSON.")
-        log(res, 1)
-    }
-    return res
-}
-
-function toNum (numTarget){
-    let res
-    try{
-        if(typeof(numTarget) != 'number')
-        {
-            if(numTarget <= 0 || numTarget >= 0)
-            {
-                res = Number(numTarget)
-            } 
-        }
-        else
-        {
-            res = new Error("It is not possible to convert the element to a number")
+    /**
+    * NS_JSON intends to convert objects and arrays to JSON.
+    * @function toJSON works like NS_JSON, the only difference is that toJSON works without
+    * limitations, NS_JSON may have limitations on arrays and objects. Because it is a form made manually and not with the
+    * @function JSON.stringify from below.
+    * @param {Object} object put a variable of type object.
+    * @returns {Object}
+    *
+   **/
+     function NS_JSON(obj) {
+        let res
+        if(typeof obj != "object"){
+            res = new Error("The argument is not an Object.")
             log(res, 1)
         }
-    }
-    catch{
-        res = new Error("It is not possible to convert the element to a number")
-        log(res, 1)
-    }
-    
-    return res
-}
+        else{
+            let is_Array = Array.isArray(obj)
+            if(is_Array == false){
+                res = "{" 
+                let chaves = Object.keys(obj)
+                let values = Object.values(obj)
+                function verifyArray(value) {
+                    if(Array.isArray(value)){
+                        let val = value
+                        let subVal = ""
+                        subVal = '['
+                        for(let e=0; e<val.length; e++){
+                            if(typeof val[e] == "string"){
+                                subVal += `"${val[e]}"`
+                                
+                                if(e != val.length-1){
+                                    subVal += ","
+                                }
+                            }
+                            else if(typeof val[e] == "number"||typeof values[e] == "boolean"){
+                                subVal += `${val[e]}`
+                                
+                                if(e != val.length-1){
+                                    subVal += ","
+                                }
+                            }
+                            else if(typeof val[e] == "object"){
+                                if(Array.isArray(val[e])) {
+                                    delete val[e]
+                                    throw Error("Sorry, but at the moment it is not possible to execute this action. [array, [array]]")
+                                    
+                                }
+                                else subVal += verifyObj(val[e])
+                                if(e != val.length-1){
+                                    subVal += ","
+                                }
+                            }    
+                        }
+                        subVal += ']'    
+                        return subVal
+                    }
+                }
+                function verifyVal(inx) {
+                    
+                    let subVal = ""
+                    let is_Array = Array.isArray(values[inx])
+                    if(is_Array != false){
+                        subVal = '['
 
-function toFlt (numTarget){
-    let res
-    try{
-        if(typeof(numTarget) != 'number')
-        {
-            if(numTarget <= 0.1 || numTarget >= 0.1)
-            {
-                res = parseFloat(numTarget)
-            } 
+                        for (let l = 0; l < values[inx].length; l++) {
+                            if(typeof values[inx][l] == "string"){
+                                subVal += `"${values[inx][l]}"`
+                                
+                                if(l != values[inx].length-1){
+                                    subVal += ","
+                                }
+                            }
+                            else if(typeof values[inx][l] == "number"||typeof values[inx][l] == "boolean"){
+                                subVal += `${values[inx][l]}`
+                                
+                                if(l != values[inx].length-1){
+                                    subVal += ","
+                                }
+                            }
+                            else if(typeof values[inx][l] == "object"){
+                                subVal += verifyArray(values[inx][l])
+                                if(l != values[inx].length-1){
+                                    subVal += ","
+                                }
+                            }
+                        }              
+                        subVal += ']'    
+                                  
+                    }
+
+                    return subVal
+                }
+                function verifyObj(value){
+                    let subVal = ""
+                    let objK = Object.keys(value)
+                    let objV = Object.values(value)
+                    subVal += "{"
+                    for(val = 0; val < objK.length; val++){
+                        if(typeof objV[val] == "string"){
+                            subVal += `"${objK[val]}"`
+                            subVal += `:`
+                            subVal += `"${objV[val]}"`
+                            if(val != objK.length-1){
+                                subVal += ","
+                            }
+                        }
+                        else if(typeof objV[val] == "number"){
+                            subVal += `"${objK[val]}"`
+                            subVal += `:`
+                            subVal += `${objV[val]}`
+                            if(val != objK.length-1){
+                                subVal += ","
+                            }
+                        }
+                        else if(typeof objV[val] == "object"){
+                            if(Array.isArray(objV[val]) == true) subVal += verifyArray(objV[val])
+                            else subVal += verifyObj(objV[val])
+                            if(val != objK.length-1){
+                                subVal += ","
+                            }
+                        }
+                    }
+                    subVal += "}"
+                    return subVal
+                }
+                
+                for (let val = 0; val < chaves.length; val++) {
+                //    chaves[val]
+                    res += '"'
+                    res += chaves[val]
+                    res += '"'
+                    res += ':'
+                    if(typeof values[val] != "string"){
+                        let subVal
+                        if(Array.isArray(values[val])) subVal = verifyVal(val)
+                        else subVal = verifyObj(values[val])
+                        res += subVal
+                    }
+                    else{
+                        res += '"'
+                        res += values[val]
+                        res += '"'
+                    }
+                    if(val != chaves.length-1){
+                        res += ","
+                    }
+                    
+                }
+
+                res += "}"
+            }
         }
-        else
-        {
-            res = new Error("Cannot convert the element to a floating number.")
+        return res
+    } 
+    /**
+    * Do you want to convert JSON to object?
+    * @param {string} JSONString
+    * @returns
+    */
+    function toObj(JSONString){
+        let res
+        try{
+            res = JSON.parse(JSONString)
+        }
+        catch{
+            res = new Error("The argument not are a JSON.")
             log(res, 1)
         }
+        return res
     }
-    catch{
-        res = new Error("Cannot convert the element to a floating number.")
-        log(res, 1)
-    }
-    
-    return res
-}
-
-function toInt(numTarget){
-    let res
-    try{
-        if(typeof(numTarget) != 'number')
-        {
-            if(numTarget <= 0 || numTarget >= 0)
+    /**
+    * Do you want to convert a string to a number? toNum will convert intelligently
+    * @param {string} numTarget put a number in string
+    * @returns {number}
+    *
+    */
+    function toNum (numTarget){
+        let res
+        try{
+            if(typeof(numTarget) != 'number')
             {
-                res = parseInt(numTarget)
-            } 
-        }
-        else
-        {
-            res = new Error("Cannot convert the element to an integer.")
-            log(res, 1)
-        }
-    }
-    catch{
-        res = new Error("Cannot convert the element to an integer.")
-        log(res, 1)
-    }
-    
-    return res
-}
-function toStr(target){
-    let res
-    if(target){
-        if(typeof(target) != 'string')
-        {
-            if(typeof(target) != 'object')
-            {
-                res = target.toString()
+                if(numTarget <= 0 || numTarget >= 0)
+                {
+                    res = Number(numTarget)
+                } 
             }
             else
             {
-                log('If you want to convert an object to JSON, use the "toJSON()" task', 2)
-                res = JSON.stringify(target)
+                res = new Error("It is not possible to convert the element to a number")
+                log(res, 1)
             }
-            
         }
-        else
-        {
-            log('This element is already a string.', 1)
-            res = Error
+        catch{
+            res = new Error("It is not possible to convert the element to a number")
+            log(res, 1)
         }
-    }else
-    {
-        log(`Operation impossible! There are no arguments to complete this task!`, 2)
-        return NaN
+        
+        return res
     }
-    return res
-}
+    /**
+      * Do you want to convert a string to a floating number? toFlt will convert.
+      * @function toNum is better
+      * @param {string} numTarget put a number in string
+      * @returns {number}
+      *
+      */
+    function toFlt (numTarget){
+        let res
+        try{
+            if(typeof(numTarget) != 'number')
+            {
+                if(numTarget <= 0.1 || numTarget >= 0.1)
+                {
+                    res = parseFloat(numTarget)
+                } 
+            }
+            else
+            {
+                res = new Error("Cannot convert the element to a floating number.")
+                log(res, 1)
+            }
+        }
+        catch{
+            res = new Error("Cannot convert the element to a floating number.")
+            log(res, 1)
+        }
+        
+        return res
+    }
+    /**
+        * Do you want to convert a string to an integer? toInt will convert.
+        * @function toNum is better
+        * @param {string} numTarget put a number in string
+        * @returns {number}
+        *
+    */
+    function toInt(numTarget){
+        let res
+        try{
+            if(typeof(numTarget) != 'number')
+            {
+                if(numTarget <= 0 || numTarget >= 0)
+                {
+                    res = parseInt(numTarget)
+                } 
+            }
+            else
+            {
+                res = new Error("Cannot convert the element to an integer.")
+                log(res, 1)
+            }
+        }
+        catch{
+            res = new Error("Cannot convert the element to an integer.")
+            log(res, 1)
+        }
+        
+        return res
+    }
+    /**
+      * Convert any value to string
+      * @param {*} target put any value for the return
+      * @returns {string}
+      */
+    function toStr(target){
+        let res
+        if(target){
+            if(typeof(target) != 'string')
+            {
+                if(typeof(target) != 'object')
+                {
+                    res = target.toString()
+                }
+                else
+                {
+                    log('If you want to convert an object to JSON, use the "toJSON()" task', 2)
+                    res = JSON.stringify(target)
+                }
+                
+            }
+            else
+            {
+                log('This element is already a string.', 1)
+                res = Error
+            }
+        }else
+        {
+            log(`Operation impossible! There are no arguments to complete this task!`, 2)
+            return NaN
+        }
+        return res
+    }
 
 // Classes 
 // Classes and the DOM functions
+    /**
+          * Used in HTGet and HLGet builds and returns DOM events
+          */
     class DOM{
         constructor(element, list, lengthList){
             if(list == void 0 && lengthList == void 0) list = false 
@@ -261,6 +451,9 @@ function toStr(target){
             }
         }
     }
+    /**
+    * Used in HTGet and HLGet builds and returns DOM attribute handlers
+    */
     class AttributesManipulator{
         constructor(element, list, lengthList){
             if(list == void 0 && lengthList == void 0) list = false 
@@ -595,6 +788,9 @@ function toStr(target){
             
         } 
     }
+    /**
+        * @class NS_DOM - USE to give DOM attributes in your project where you have already used native JS
+    */
     class NS_DOM{
         constructor(element, list, lengthList){
             if(list == void 0 && lengthList == void 0) list = false 
@@ -623,7 +819,130 @@ function toStr(target){
             
         }
     }
+    /**
+        * @class builderElement will build a function for creating elements, containing this.CreateElement and some shorteners (this.btn, this.input)
+    */
+     class builderElement{
+        constructor(){
+            this.CreateElement = (tag, set)=>{
+                let isTag = false
+                let elm = new Object
+                if(tag[0] == "<" && tag.indexOf(">") != -1) isTag = true
+            
+                if(isTag){
+                    let syntax = tag.replace("<", "")
+                    syntax = syntax.replace(">", "")
+                    elm.elm = document.createElement(syntax)
+                    elm["createNS"] = true
+                    elm.setId = (id)=>{
+                        if(typeof id != "string") return new Error("Please, append a string!")
+                        elm.elm.id = id
+                    }
+                    elm.setText = (text)=>{
+                        if(typeof text != "string") return new Error("Please, append a string!")
+                        elm.elm.innerText = text
+                    }
+                    elm.addText = (text)=>{
+                        if(typeof text != "string") return new Error("Please, append a string!")
+                        elm.elm.innerText += text
+                    }
+                    elm.setHTML = (HTML)=>{
+                        if(typeof HTML != "string") return new Error("Please, append a string!")
+                        elm.elm.innerHTML = HTML
+                    }
+                    elm.addHTML = (HTML)=>{
+                        if(typeof HTML != "string") return new Error("Please, append a string!")
+                        elm.elm.innerHTML += HTML
+                    }
+                    elm.setVal = (value)=>{
+                        if(typeof value != "string") return new Error("Please, append a string!")
+                        elm.elm.value = value
+                    }
+                    elm.val = ()=>{
+                        return NS.val()
+                    }
+                    let NS = new NS_DOM(elm.elm) 
+                    elm.setStyle = NS.CSS
+                    
+                    elm.append = (element)=>{
+                        if(element == void 0) element = document.body
+                        log("Sorry, element not defined, then i append your element in the body", 2)
+                        element.appendChild(elm.elm)
+                    }
+                    elm.setClass = NS.mkClass
+                    elm.removeClass = NS.rmClass
+                    elm.setAttr = NS.mkAttr
+                    elm.removeAttr = NS.rmAttr
+                    if(set && typeof set == "object"){
+                        if(set.style) elm.setStyle(set.style)
+                        if(set.class) elm.setClass(set.class)
+                        if(set.attr) elm.setAttr(set.attr)
+                        if(set.id) elm.setId(set.id)
+                        if(set.content) elm.setText(set.content)
+                        if(set.value) elm.setVal(set.value)
+                        if(set.href) elm.setLink(set.href) 
+                    } else{
+                        if(typeof set != "object" && typeof set != "undefined"){
+                            elm.Error = "This set not is a object."
+                            log(elm.Error, 1)
+                        }
+                    }
+                    return elm
+                }
+                else {
+                    if(tag.indexOf("<") == -1 && tag.indexOf(">") == -1) return new Error(`Append a tag whit the correct syntax: <${tag}>`)
+                    else if(tag.indexOf("<") != -1 && tag.indexOf(">") == -1) return new Error(`Append a tag whit the correct syntax: ${tag}>`)
+                    else if(tag.indexOf("<") == -1 && tag.indexOf(">") != -1) return new Error(`Append a tag whit the correct syntax: <${tag}`)
+                }
+            }
+            this.btn = (set)=>{
+                let btn
+                if(!set){
+                    btn = this.CreateElement("<button>", {
+                        style: {
+                            backgroundColor: "#a7a7a7",
+                            minWidth: "50px",
+                            minHeight: "25px",
+                            border: "0",
+                            borderRadius: "10px",
+                            cursor: "pointer"
+                        }
+                    })
+                }else{
+                    if(typeof set != "object") log("Sorry! But the set value has to be an object!", 1, true)
+                    else{
+                        btn = this.CreateElement("<button>", set)
+                    }
+                }
+                return btn
+            }
+            this.input = (set)=>{
+                let inp
+                if(!set){
+                    inp = this.CreateElement("<input>", {
+                        style: {
+                            backgroundColor: "#efefef",
+                            minWidth: "150px",
+                            minHeight: "40px",
+                            border: "0",
+                            borderRadius: "10px"
+                        }
+                    })
+                }else{
+                    if(typeof set != "object") log("Sorry! But the set value has to be an object!", 1, true)
+                    else{
+                        inp = this.CreateElement("<input>", set)
+                    }
+                }
+                return inp
+            } 
+           
+        }
+    }
 // On get
+    /**
+        * Used to build the DOM element returned by HTGet
+    */
     class NS_Get{
         constructor(syntax){
             this.element = document.querySelector(syntax)
@@ -663,6 +982,9 @@ function toStr(target){
             else log(`The requested object does not exist or the syntax is incorrect, check: >"${sintaxe}"<`, 1)
         }
     } 
+    /**
+        * Used to build a NODELIST or Array with DOM TagsList returned by HTLet
+    */
     class NS_Get_List{
         constructor(syntax){
             let typeSearch 
@@ -710,82 +1032,142 @@ function toStr(target){
     }
 // functions
 // DOM Func
+    /**
+        * @name HTGet returns the DOM element constructed by
+        * @class NS_Get
+        * @param {string} syntax put a string in the syntax of how you want to get the element
+        * "#syntaxe" ".syntax" "elm [name = syntax]" "elm [type = type]"
+    */
     function HTGet(syntax){
         return new NS_Get(syntax)
     }
+    /**
+        * createElm will work on creating html elements
+        * through createElm.CreateElement (tag, set) you will create the element, as a parameter pass <tagName>
+        * NOTE: No spaces, here only because JS-doc does not support
+        * Parameter set will be the initial settings of your element, it must be an object
+        * {style: {}, id: "testID", class: ["btn", "btn1"], content: "Hello world!", value: ""}
+        *
+    */
+    const createElm = new builderElement()
+    /**
+        * Will return a list with several html objects
+        * @param {string} syntax put a string to receive an object / array with several elements with the same indication
+        * ".className" or "<tagName>" obj: the "<" ">" are next to the text, JS Doc does not support this syntax
+        * @returns
+    */
     function HLGet(syntax) {
         return new NS_Get_List(syntax)
     }
+    /**
+        * This function will make settings only for desktop devices, with screen> = 800
+        * @param {function} settings A callback function that will occur when you have a user using a device where the width is greater than or equal to 800
+    */
     function setDesktop(settings) {
         if(typeof settings != "function"){
             log("You must put a function in the settings parameter", 1, true)
         }
         if (screen.width >= 800) settings()
     }
+    /**
+        * This function will make settings only for mobile devices, with screen <800
+        * @param {function} settings A callback function that will occur when you have a user using a device where the width is less than 800
+    */
     function setMobile(settings) {
         if(typeof settings != "function"){
             log("You must put a function in the settings parameter", 1, true)
         }
         if (screen.width < 800) settings()
     }
-// Storage manipulator 
-    function LS_Set(name, value, append=false){
-        function saveData(valueToSave){
-            if(localStorage[name] && append == true)
+// Storage manipulator
+       /**
+          * LS_Set will create / edit a localStorage
+          * @param {string} name Name of your storage, type string
+          * @param {any} value Value that will be stored, can be any type
+          * @param {boolean} append value to add? If yes, true, if not false. false will override the previous value
+        */
+         function LS_Set(name, value, append=false){
+            function saveData(valueToSave){
+                if(localStorage[name] && append == true)
+                {
+                    let oldVal = LS_Get(name)
+                    let newArray = new Array
+                    newArray.push(oldVal)
+                    newArray.push(valueToSave)
+                    localStorage[name] = toJSON(newArray)
+                }
+                else
+                {
+                    localStorage[name] = valueToSave
+                }
+            }
+            if(typeof value == "object")
             {
-                let oldVal = LS_Get(name)
-                let newArray = new Array
-                newArray.push(oldVal)
-                newArray.push(valueToSave)
-                localStorage[name] = toJSON(newArray)
+                value = toJSON(value)
+                saveData(value)
             }
             else
             {
-                localStorage[name] = valueToSave
+                saveData(value)
+            }
+            
+        }
+        /**
+          * Gets the value of the local storage
+          * @param {string} name Enter the name of the storage you want to get the value
+          * @param {boolean} convert Put a Boolean value if you want to convert or not
+          * @param {string} type Put "string" to return string, "object" to return object / array and "number" to return float or integer
+        */
+        function LS_Get (name, convert, type){
+            let recibe = localStorage[name] 
+
+            if(convert == void 0) convert = false
+            if(type == void 0 && convert != false)  log("Você não pode marcar que vai converter e não por o tipo.", 1)
+            
+            if(type == "string"){
+                recibe = toStr(recibe)
+            }else if(type == "object"){
+                recibe = toObj(recibe)
+            }else if(type == "number"){
+                recibe = toNum(recibe)
+            }
+            return recibe
+        }
+    // window manipulator
+        /**
+            * Use JS's default pop-ups? window.alert, window.prompt and window.confirm?
+            * @param {string} message Message that will appear
+            * @param {number} type Type of message, 0 = alert, 1 = prompt, 2 = confirm
+        */
+        function jPopUp(message, type){
+            if(type == void 0) type = 0
+            if(type == 0){
+                return alert(message)
+            }
+            else if(type == 1){
+                return prompt(message)
+            }
+            else if(type == 2){
+                return confirm(message)
+            }else{
+                if(typeof type != "number") log(`Desculpe, mas o argumento type não é um número. É um/a ${typeof type}`, 1) 
+                else log(`Erro, o tipo ${type} não é válido!`,1)
             }
         }
-        if(typeof value == "object")
-        {
-            value = toJSON(value)
-            saveData(value)
+        /**
+          * Redirects the user to where you send
+          * @param {string} link link that the user will be redirected
+        */
+        function redirect(link){
+            window.location.href = link
         }
-        else
-        {
-            saveData(value)
+        /**
+          * A new tab will open
+          * @param {string} link link that will open on this tab
+        */
+        function openWin(link){
+            window.open(link)
         }
-        
-    }
-    function LS_Get (name){
-        let recibe =localStorage[name] 
-        try {
-            recibe = toObj(recibe)
-        } catch{
-            recibe = recibe
-        }
-        return recibe
-    }
-// window manipulator 
-    function jPopUp(message, type){
-        if(type == 0)
-        {
-            return alert(message)
-        }
-        else if(type == 1)
-        {
-            return prompt(message)
-        }
-        else if(type == 2)
-        {
-            return confirm(message)
-        }
-        else
-        {
-            log(`Error, type ${type} is not valid!`,1)
-        }
-    }
-    function redirect(link){
-        window.location.href = link
-    }
-    function openWin(link){
-        window.open(link)
-    }
+
+       
+
