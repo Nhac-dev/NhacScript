@@ -1,0 +1,30 @@
+{
+    "name": "NhacScript",
+    "version": "3.0.0",
+    "versionName": "Beta",
+    "authors": [
+        "Jefferson Silva"
+    ],
+    "repository": {
+        "GitHub": "https://github.com/Nhac-dev/NhacScript/tree/beta"
+    },
+    "description": "O NS foi criado no intuito de facilitar a vida do DEV Front-End, tendo isso em vista, pequenas funções dentro dele, faz coisas enormes. Tentei ao máximo deixar o código legível para você editar, melhorar, e tentei deixar as funções mais curtas para melhor uso.",
+    "scriptOrganization": {
+        "TS": [
+            "type",
+            "interface",
+            "class",
+            "functions",
+            "constants",
+            "preExecution"
+        ],
+        "JS":[
+            "class",
+            "functions",
+            "constants",
+            "preExecution"
+        ]
+    },
+    "DOCS":"Folder in Production",
+    "officialWebDoc": "http://doc-nscript.web.app/"
+}
