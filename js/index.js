@@ -608,6 +608,7 @@ class creat_Element_Cls {
         _creat_Element_Cls_elm.set(this, void 0);
         if (tag[0] == "<" && tag[tag.length - 1] == ">") {
             tag = tag.replace("<", "");
+            tag = tag.replace(/ /g, "");
             tag = tag.replace(">", "");
             this.elm = document.createElement(tag);
             __classPrivateFieldSet(this, _creat_Element_Cls_elm, this.elm, "f");
@@ -671,16 +672,32 @@ function GetListDom(element) {
     return elm;
 }
 // Get The HTML Elements
+/**
+ * Obtenha elementos HTML com o NhacScript para melhor manipulação
+ * @param {string} syntax - use a mesma sintaxe que usaria no querySelector
+ * @returns {get_Elm_Cls}
+ */
 function GetElm(syntax) {
     let element = new get_Elm_Cls(syntax);
     return element;
 }
+/**
+ * Obtenha um array com vários elementos HTML com o NhacScript para melhor manipulação
+ * @param {string} syntax - use a mesma sintaxe que usaria no querySelectorAll
+ * @returns {get_List_Elm_Cls}
+ */
 function GetListElm(syntax) {
     let element = new get_List_Elm_Cls(syntax);
     return element;
 }
 // Object Manipulator
 // Protect
+/**
+ * Proíba a rescrição nas chaves dos seus objetos
+ * @param {object} obj - Objeto a ser modificado
+ * @param {string|string[]} keys - Chave ou chaves a serem modificadas
+ * use * como argumento de keys para modificar todas
+ */
 function NoRewriteObject(obj, keys) {
     function protectFuncWrite(arrayKey) {
         if (arrayKey == void 0)
@@ -703,6 +720,12 @@ function NoRewriteObject(obj, keys) {
         protectFuncWrite([keys]);
     }
 }
+/**
+* Proíba a enumeração nas chaves dos seus objetos
+* @param {object} obj - Objeto a ser modificado
+* @param {string|string[]} keys - Chave ou chaves a serem modificadas
+* use * como argumento de keys para modificar todas
+*/
 function NoEnumerableObject(obj, keys) {
     function protectFuncEnu(arrayKey) {
         if (arrayKey == void 0)
@@ -725,6 +748,12 @@ function NoEnumerableObject(obj, keys) {
         protectFuncEnu([keys]);
     }
 }
+/**
+* Proíba qualquer alteração nas chaves dos seus objetos
+* @param {object} obj - Objeto a ser modificado
+* @param {string|string[]} keys - Chave ou chaves a serem modificadas
+* use * como argumento de keys para modificar todas
+*/
 function PrivateAllObject(obj, keys) {
     function protectFunc(arrayKey) {
         if (arrayKey == void 0)
@@ -749,6 +778,12 @@ function PrivateAllObject(obj, keys) {
     }
 }
 // DeProtect
+/**
+ * Permita a rescrição nas chaves dos seus objetos
+ * @param {object} obj - Objeto a ser modificado
+ * @param {string|string[]} keys - Chave ou chaves a serem modificadas
+ * use * como argumento de keys para modificar todas
+ */
 function RewriteObject(obj, keys) {
     function protectFuncWrite(arrayKey) {
         if (arrayKey == void 0)
@@ -771,6 +806,12 @@ function RewriteObject(obj, keys) {
         protectFuncWrite([keys]);
     }
 }
+/**
+ * Permita a enumeração nas chaves dos seus objetos
+ * @param {object} obj - Objeto a ser modificado
+ * @param {string|string[]} keys - Chave ou chaves a serem modificadas
+ * use * como argumento de keys para modificar todas
+ */
 function EnumerableObject(obj, keys) {
     function protectFuncEnu(arrayKey) {
         if (arrayKey == void 0)
@@ -793,6 +834,12 @@ function EnumerableObject(obj, keys) {
         protectFuncEnu([keys]);
     }
 }
+/**
+ * Permita qualquer alteração nas chaves dos seus objetos
+ * @param {object} obj - Objeto a ser modificado
+ * @param {string|string[]} keys - Chave ou chaves a serem modificadas
+ * use * como argumento de keys para modificar todas
+ */
 function PublicAllObject(obj, keys) {
     function protectFunc(arrayKey) {
         if (arrayKey == void 0)
@@ -915,16 +962,43 @@ function GenRandom(min, max) {
     let randomNum = RoundNum(randomDefault * (max - min) + min);
     return randomNum;
 }
+/**
+ * Arredonde o número de forma lógica
+ * @param {number} num
+ * @returns {number}
+ */
 function RoundNum(num) {
     return Math.round(num);
 }
+/**
+ * Arredonde o número para baixo
+ * EX: 1.6
+ * logica: 2.0 ou 2
+ * retorno 1.0 ou 1
+ * @param {number} num
+ * @returns {number}
+ */
 function RoundNumDown(num) {
     return Math.floor(num);
 }
+/**
+* Arredonde o número para cima
+* EX: 1.2
+* logica: 1.0 ou 1
+* retorno 2.0 ou 2
+* @param {number} num
+* @returns {number}
+*/
 function RoundNumUp(num) {
     return Math.ceil(num);
 }
 // String and Array Working
+/**
+ * Gere um texto aleatório, defina o limite máximo dele.
+ * @param {number} maxLength - Quantidade de caracteres máximo
+ * @param {string} mask - Mascare automaticamente com o @function MaskText
+ * @returns {string}
+ */
 function GenRandomText(maxLength, mask) {
     let allChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let ranText = "";
@@ -937,6 +1011,17 @@ function GenRandomText(maxLength, mask) {
     }
     return ranText;
 }
+/**
+ * Mascare sua string, defina o template exemplo:
+ * "###.###.###-##"
+ * E seu texto, exemplo:
+ * "00000000000"
+ * e virará:
+ * "000.000.000-00"
+ * @param {string} text - Texto a ser mascarado
+ * @param {string} template - Templete - use as # para definir o valor para ser substituído
+ * @returns {string}
+ */
 function MaskText(text, template) {
     let indexText = text.length;
     let indexMask = FindAllIndex("#", template).length;
@@ -951,6 +1036,13 @@ function MaskText(text, template) {
     }
     return returnText;
 }
+/**
+ * Uma das coisas mais chatas, é verificar os arrays, e essa função retorna todos os indices de um determinado valor no array ou string.
+ * Desde que, haja valores repetidos.
+ * @param {any} to - Valor a ser pesquisado
+ * @param {string|any} ofItem - Vetor mãe
+ * @returns {number[]}
+ */
 function FindAllIndex(to, ofItem) {
     let found = new Array();
     let counter = 0;
@@ -963,58 +1055,46 @@ function FindAllIndex(to, ofItem) {
     }
     return found;
 }
-function FindAllWord(word, ofStr) {
-    function TestTheFound() {
-        let str = "";
-        for (let subInd of testFound) {
-            str += word[subInd];
-        }
-        if (str == word) {
-            found.push(testFound);
-            console.log(testFound);
-            console.log("É igual");
-            ClearTestFound();
-        }
-        else {
-            console.log("Ñ É igual");
-        }
+// MultiPlatform
+/**
+ * Defina funções para dispositivos nomeados como Desktops a função que ocorrerá somente nos aparelho com a tela maior que 800px
+ * @param {Function} callback
+ */
+function SetDesktop(callback) {
+    if (screen.width <= 800) {
+        callback();
     }
-    function ClearTestFound() {
-        while (true) {
-            if (testFound[0])
-                testFound.pop();
-            else
-                break;
-        }
+}
+/**
+ * Defina funções para dispositivos nomeados como Celulares Mobile a função que ocorrerá somente nos aparelho com a tela menor que 801px
+ * @param {Function} callback
+ */
+function SetMobile(callback) {
+    if (screen.width >= 801) {
+        callback();
     }
-    let found = new Array();
-    let testFound = new Array();
-    let ignoreIndex = new Array([], []);
-    for (let w = 0; w < ofStr.length; w++) {
-        TestTheFound();
-        let isYes = false;
-        for (let ww = 0; ww < word.length; ww++) {
-            if (ignoreIndex[0][w] == w && ignoreIndex[0][ww] == ww) {
-                continue;
-            }
-            let is = word[ww] == ofStr[w];
-            if (is) {
-                ignoreIndex[0].push(w);
-                ignoreIndex[1].push(ww);
-                isYes = true;
-                break;
-            }
-        }
-        if (isYes) {
-            testFound.push(w);
-        }
-        else {
-            ClearTestFound();
-        }
+}
+/**
+ * Defina funções para dispositivos de tamanho diferente
+ * @param {Function} mobile Defina função que ocorrerá somente nos aparelho com a tela menos que 801px
+ * @param {Function} desktop Defina função que ocorrerá somente nos aparelho com a tela mais que 800px
+ */
+function SetResponsive(mobile, desktop) {
+    if (screen.width <= 800) {
+        mobile();
     }
-    console.log(found);
+    else if (screen.width >= 801) {
+        desktop();
+    }
 }
 // LocalStorage Manipulation
+/**
+ * Adicione valores ao local storage
+ * @param {string} localName - Nome do localStorage
+ * @param {any} value - Valor a ser adicionado
+ * @param {boolean} append - Esse valor vai ser adicionado ou sobreporá o anterior?
+ * Se true, os valores serão concatenados, se false, o valor anterior será removido e o novo adicionado
+ */
 function SetLocal(localName, value, append = false) {
     if (typeof value == "object")
         ToJSON(value);
@@ -1025,6 +1105,13 @@ function SetLocal(localName, value, append = false) {
         localStorage[localName] += value;
     }
 }
+/**
+ * Obtenha os valores do localStorage;
+ * Obtenha pre-convertido ou no tipo default(string)
+ * @param {string} localName - Nome do localStorage
+ * @param {{convert: boolean, targetType: conversorTo}} setting - Em convert defina se vai converter ou não, em targetType, defina o tipo da conversão de retorno.
+ * @returns {any}
+ */
 function GetLocal(localName, setting) {
     let localValue = localStorage[localName];
     if (localValue == "" || localValue == undefined) {
@@ -1351,11 +1438,25 @@ const outObj = {
     },
     createdBy: "NhacScript"
 };
+/**
+ * Crie elementos HTML em poucos texto
+ */
 const createElm = {
+    /**
+     * Crie qualquer tag
+     * @param {string} tag use os sinais < text > para definir a tag.
+     * @param {{value?: string, style?: nssProps,text?: string, name?: string, id?: string,class?: string}} preDefinition - Predefinição
+     * @returns
+     */
     CreateElm: (tag, preDefinition) => {
         let create = new creat_Element_Cls(tag, preDefinition);
         return create;
     },
+    /**
+     * Crie um botão
+     * @param {{value?: string, style?: nssProps,text?: string, name?: string, id?: string,class?: string}} preDefinition - Predefinição
+     * @returns
+     */
     Btn: (preDefinition) => {
         if (!preDefinition || !preDefinition.style) {
             if (!preDefinition)
@@ -1370,6 +1471,11 @@ const createElm = {
         let create = createElm.CreateElm("<button>", preDefinition);
         return create;
     },
+    /**
+     * Crie um input
+     * @param {{value?: string, style?: nssProps,text?: string, name?: string, id?: string,class?: string}} preDefinition - Predefinição
+     * @returns
+     */
     Input: (preDefinition) => {
         if (!preDefinition || !preDefinition.style) {
             if (!preDefinition)
@@ -1386,6 +1492,11 @@ const createElm = {
         let create = createElm.CreateElm("<input>", preDefinition);
         return create;
     },
+    /**
+     * Crie um output
+     * @param {{value?: string, style?: nssProps,text?: string, name?: string, id?: string,class?: string}} preDefinition - Predefinição
+     * @returns
+     */
     Output: (preDefinition) => {
         if (!preDefinition || !preDefinition.style) {
             if (!preDefinition)
@@ -1402,18 +1513,38 @@ const createElm = {
         let create = createElm.CreateElm("<output>", preDefinition);
         return create;
     },
+    /**
+     * Crie uma div
+     * @param {{value?: string, style?: nssProps,text?: string, name?: string, id?: string,class?: string}} preDefinition - Predefinição
+     * @returns
+     */
     Div: (preDefinition) => {
         let create = createElm.CreateElm("<div>", preDefinition);
         return create;
     },
+    /**
+     * Crie uma span
+     * @param {{value?: string, style?: nssProps,text?: string, name?: string, id?: string,class?: string}} preDefinition - Predefinição
+     * @returns
+     */
     Span: (preDefinition) => {
         let create = createElm.CreateElm("<span>", preDefinition);
         return create;
     },
+    /**
+     * Crie um parágrafo
+     * @param {{value?: string, style?: nssProps,text?: string, name?: string, id?: string,class?: string}} preDefinition - Predefinição
+     * @returns
+     */
     P: (preDefinition) => {
         let create = createElm.CreateElm("<p>", preDefinition);
         return create;
     },
+    /**
+     * Crie um formulário
+     * @param {{value?: string, style?: nssProps,text?: string, name?: string, id?: string,class?: string}} preDefinition - Predefinição
+     * @returns
+     */
     Form: (preDefinition) => {
         let create = createElm.CreateElm("<form>", preDefinition);
         return create;
@@ -1439,6 +1570,7 @@ const createElm = {
 const { Conversor, ToNum, ToStr, ToObj, ToJSON } = convertor;
 const { Ask, AskNum, AskBool } = inputObj;
 const { Log, Debug, Err, Warn, Table } = outObj;
+const { Input, Output, Btn, Form, Div } = createElm;
 // Execution
 // Add Special attr to Identifier NhacScript
 // Function
