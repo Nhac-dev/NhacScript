@@ -1,2 +1,0 @@
-- FindAllWord
-- Documentar as funções não documentada
